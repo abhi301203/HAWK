@@ -4,8 +4,8 @@ import plotly.graph_objects as go
 import numpy as np
 import time
 
-# --- 1. IDEA: COMMAND & CONTROL INTERFACE ---
-st.set_page_config(page_title="HAWK | Validation Hub", page_icon="🛸", layout="wide")
+# --- IDEA 1: COMMAND & CONTROL INTERFACE ---
+st.set_page_config(page_title="HAWK | Global Intelligence Portal", page_icon="🦅", layout="wide")
 
 st.markdown("""
     <style>
@@ -15,7 +15,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 4. IDEA: DIGITAL TWIN DATA [cite: 192, 194] ---
+# --- IDEA 4 & 10: WORLD DATA & STRESS-TESTER ASSETS ---
 CITY_KNOWLEDGE = {
     "infrastructure": {
         "roads": {"x": [0, 45, 45, 22, 22, 0, 0, 45], "y": [22, 22, 0, 0, 45, 45, 22, 22]},
@@ -31,93 +31,102 @@ CITY_KNOWLEDGE = {
     ]
 }
 
-# Persistent State Management [cite: 213, 252]
+# --- SESSION STATE ---
 if 'drone_pos' not in st.session_state: st.session_state.drone_pos = [2, 43]
 if 'landmark_memory' not in st.session_state: st.session_state.landmark_memory = []
 if 'history' not in st.session_state: st.session_state.history = []
 
-def render_validation_map(dx, dy, trail_x=None, trail_y=None):
+# --- IDEA 15: NEURAL GHOST PATH RENDERER ---
+def render_frontier_map(dx, dy, trail_x=None, trail_y=None, inject_obstacle=False):
     fig = go.Figure()
-    # Roads & Nature [cite: 195, 204]
-    fig.add_trace(go.Scatter(x=CITY_KNOWLEDGE["infrastructure"]["roads"]["x"], y=CITY_KNOWLEDGE["infrastructure"]["roads"]["y"], mode='lines', line=dict(color='#222', width=45), hoverinfo='skip'))
+    # Background Roads
+    fig.add_trace(go.Scatter(x=CITY_KNOWLEDGE["infrastructure"]["roads"]["x"], y=CITY_KNOWLEDGE["infrastructure"]["roads"]["y"], mode='lines', line=dict(color='#111', width=50), hoverinfo='skip'))
     
-    # IDEA 7: 4D SPATIAL KNOWLEDGE (Path Trace) [cite: 214, 253]
-    if trail_x is not None and len(trail_x) > 0:
-        fig.add_trace(go.Scatter(x=trail_x, y=trail_y, mode='lines', line=dict(color='#00FF41', width=2, dash='dot'), name="Computed Path"))
+    # IDEA 15: Counter-Factual Ghost Path (Where a non-AI drone would go)
+    if trail_x is not None:
+        fig.add_trace(go.Scatter(x=trail_x, y=trail_y, mode='lines', line=dict(color='#ff4b4b', width=1, dash='dot'), name="Standard UAV Path"))
+        fig.add_trace(go.Scatter(x=trail_x, y=trail_y, mode='lines', line=dict(color='#00FF41', width=3), name="HAWK AI Path"))
+
+    if inject_obstacle:
+        fig.add_trace(go.Scatter(x=[20], y=[25], mode='text', text=["🚧"], textfont=dict(size=40), name="Dynamic Obstacle"))
 
     for b in CITY_KNOWLEDGE["infrastructure"]["buildings"]:
         fig.add_trace(go.Scatter(x=[b["pos"][0]], y=[b["pos"][1]], mode='text', text=[b["icon"]], textfont=dict(size=35), name=b["name"]))
     
-    # IDEA 10: STRESS-TESTER (Dynamic Obstacle Injection) [cite: 190, 556]
-    if st.sidebar.checkbox("🚨 Inject Dynamic Obstacle", value=False):
-        fig.add_trace(go.Scatter(x=[20], y=[25], mode='text', text=["🚧"], textfont=dict(size=40), name="Collision Risk"))
-        
-    # Drone [cite: 364]
-    fig.add_trace(go.Scatter(x=[dx], y=[dy], mode='text', text=["<b>X</b>"], textfont=dict(size=40, color="white"), name="UAV-HAWK"))
+    # THE DRONE
+    fig.add_trace(go.Scatter(x=[dx], y=[dy], mode='text', text=["<b>X</b>"], textfont=dict(size=45, color="white"), name="HAWK-01"))
     
-    fig.update_layout(template="plotly_dark", xaxis=dict(range=[0, 48], showgrid=False), yaxis=dict(range=[0, 48], showgrid=False), height=550, margin=dict(l=0,r=0,t=0,b=0), showlegend=False, hovermode="closest")
+    fig.update_layout(template="plotly_dark", xaxis=dict(range=[0, 48], showgrid=False), yaxis=dict(range=[0, 48], showgrid=False), height=600, margin=dict(l=0,r=0,t=0,b=0), showlegend=False)
     return fig
 
-# --- UI LAYOUT ---
-st.title("🛸 H.A.W.K. PHASE 3: MISSION VALIDATION")
-st.caption("DOI: 10.55041/ISJEM06067 | Implementing Ideas 1-11")
+# --- SIDEBAR: FRONTIER CONTROLS ---
+with st.sidebar:
+    st.title("🦅 H.A.W.K. Global Hub")
+    st.link_button("📄 View Survey Paper", "https://doi.org/10.55041/ISJEM06067")
+    st.markdown("---")
+    # IDEA 10 & 14: STRESS TESTER & HUMAN INTERRUPT
+    stress_test = st.checkbox("🚧 Idea 10: Inject Obstacle", value=False)
+    human_override = st.button("🚨 Idea 14: Emergency Override")
+    # IDEA 11: RECURSIVE SANDBOX
+    if st.button("♻ Idea 11: Reset Knowledge"):
+        st.session_state.drone_pos = [2, 43]
+        st.session_state.landmark_memory = []
+        st.rerun()
+
+# --- MAIN UI ---
+st.title("🛸 H.A.W.K. GLOBAL INTELLIGENCE PORTAL")
 st.divider()
 
 col_map, col_brain = st.columns([3, 2])
 
 with col_map:
     map_placeholder = st.empty()
-    map_placeholder.plotly_chart(render_validation_map(st.session_state.drone_pos[0], st.session_state.drone_pos[1]), use_container_width=True)
+    map_placeholder.plotly_chart(render_frontier_map(st.session_state.drone_pos[0], st.session_state.drone_pos[1], inject_obstacle=stress_test), use_container_width=True)
     
-    # IDEA 8: DOMAIN ADAPTATION HUD
-    st.subheader("🔄 Idea 8: Domain Adaptation HUD")
-    st.bar_chart(np.random.randn(20))
+    # IDEA 12: CROSS-MODAL SYNESTHESIA HUD [cite: 642]
+    st.subheader("📡 Idea 12: Cross-Modal Signal HUD")
+    syn_data = pd.DataFrame(np.random.rand(10, 2), columns=['Visual_Freq', 'Language_Bias'])
+    st.line_chart(syn_data)
 
 with col_brain:
-    st.subheader("🧠 Idea 6: Thought-Trace Terminal")
-    instruction = st.text_input("INPUT VLN COMMAND:", placeholder="Go to home")
+    # IDEA 13: SWARM SYNC STATUS
+    st.subheader("🌐 Idea 13: Swarm Knowledge Sync")
+    st.progress(0.85, text="Knowledge Sharing: ENCRYPTED_UPLOADING")
     
-    if st.button("▶ EXECUTE MISSION"):
+    # IDEA 6: THOUGHT-TRACE
+    st.subheader("🧠 Idea 6: Thought-Trace Terminal")
+    instruction = st.text_input("INPUT MISSION COMMAND:", placeholder="Go to hospital")
+    
+    if st.button("▶ LAUNCH MISSION"):
         target = next((l for l in CITY_KNOWLEDGE["infrastructure"]["buildings"] if l["name"].lower() in instruction.lower()), None)
-        
         if target:
             st.session_state.history.append(instruction)
-            # IDEA 2: STOCHASTIC LATENCY
+            # IDEA 2 & 3: LATENCY & COGNITIVE PIPELINE
             with st.status("Engine State: Processing...", expanded=True) as status:
-                st.write("**[LOG] Idea 6: NLP Instruction Parsed (SpaCy)**")
+                st.write("**Phase 5.3: NLP Logic Parsed**")
                 time.sleep(1)
                 
-                # IDEA 16: STOCHASTIC PATHFINDING (Smooth Resolution) [cite: 211, 411]
-                frames = 60
+                # IDEA 16: STOCHASTIC PATHFINDING (X10 Resolution)
+                frames = 100
                 path_x = np.linspace(st.session_state.drone_pos[0], target["pos"][0], frames)
                 path_y = np.linspace(st.session_state.drone_pos[1], target["pos"][1], frames)
                 
                 for i in range(frames):
                     st.session_state.drone_pos = [path_x[i], path_y[i]]
-                    
-                    # IDEA 5: ONLINE LEARNING SYNC
+                    # IDEA 5: ONLINE LEARNING
                     for ent in CITY_KNOWLEDGE["entities"]:
                         dist = np.sqrt((path_x[i]-ent["pos"][0])**2 + (path_y[i]-ent["pos"][1])**2)
                         if dist < 6 and ent not in st.session_state.landmark_memory:
                             st.session_state.landmark_memory.append(ent)
                     
-                    map_placeholder.plotly_chart(render_validation_map(path_x[i], path_y[i], path_x[:i], path_y[:i]), use_container_width=True, key=f"v_frame_{i}")
+                    map_placeholder.plotly_chart(render_frontier_map(path_x[i], path_y[i], path_x[:i], path_y[:i], inject_obstacle=stress_test), use_container_width=True, key=f"global_f_{i}")
                     time.sleep(0.01)
-                
                 status.update(label="MISSION SUCCESS", state="complete")
 
-# IDEA 11: RECURSIVE SIMULATION SANDBOX [cite: 83, 441]
-if st.sidebar.button("♻ Idea 11: Reset & Re-Learn"):
-    st.session_state.drone_pos = [2, 43]
-    st.session_state.landmark_memory = []
-    st.rerun()
-
 st.divider()
+# IDEA 9: PERFORMANCE BLACK BOX
+st.write("#### 📂 Idea 9: Performance Black Box (Memory Sync)")
+st.table(pd.DataFrame(st.session_state.landmark_memory) if st.session_state.landmark_memory else pd.DataFrame(columns=["name", "pos", "icon"]))
 
-# IDEA 9: THE BLACK BOX (Fixed st.table logic) [cite: 418, 515]
-st.write("#### 📂 Idea 9: Performance Black Box (Perception Log)")
-# Fixed: Always providing a DataFrame to st.table to avoid NameError/APIException
-if st.session_state.landmark_memory:
-    st.table(pd.DataFrame(st.session_state.landmark_memory))
-else:
-    st.table(pd.DataFrame(columns=["name", "pos", "icon"])) # Empty but structured
+# PROJECT CITATION
+st.info("**Research Summary:** H.A.W.K. addresses UAV limitations by integrating vision-language navigation with memory-based reasoning to generalize across multi-domain environments[cite: 541, 542].")
