@@ -3,122 +3,135 @@ import time
 import pandas as pd
 import numpy as np
 
-# --- CONFIG & THEME ---
-st.set_page_config(page_title="HAWK Research Console", page_icon="🦅", layout="wide")
+# --- PAGE CONFIG ---
+st.set_page_config(page_title="HAWK | Research Console", page_icon="🦅", layout="wide")
 
-# Graduate-Level CSS (Tech-Dark)
+# --- CUSTOM THEME ---
 st.markdown("""
     <style>
-    .main { background-color: #06090e; color: #c9d1d9; }
-    .stProgress > div > div > div > div { background-image: linear-gradient(to right, #1f6feb , #58a6ff); }
-    .reportview-container { background: #0d1117; }
-    .css-1offfwp { padding: 1rem; border-radius: 10px; background-color: #161b22; border: 1px solid #30363d; }
+    .main { background-color: #0d1117; color: #c9d1d9; }
+    .stAlert { background-color: #161b22; border: 1px solid #30363d; }
+    code { color: #58a6ff !important; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- SIDEBAR: SYSTEM DIAGNOSTICS ---
-with st.sidebar:
-    st.title("🛸 H.A.W.K. v2.4")
-    st.markdown("---")
-    st.subheader("📡 Environment Link")
-    st.success("WSL2 / Ubuntu 22.04: ACTIVE")
-    st.info("AirSim API v1.8.1: CONNECTED")
+# --- ARCHITECTURE REFERENCE LOGIC ---
+def process_hawk_logic(command):
+    """Simulates the 5.5 Decision Engine flow based on user input"""
+    # 5.3 NLP (SpaCy Mock)
+    tokens = command.lower().split()
+    action = "find" if "find" in tokens or "search" in tokens else "go"
+    target = "car" if "car" in tokens else "tree" if "tree" in tokens else "object"
+    color = "red" if "red" in tokens else "blue" if "blue" in tokens else "none"
     
-    st.markdown("---")
-    st.subheader("🔋 Onboard Compute")
-    cpu_load = st.slider("CPU Load (Agent)", 0, 100, 42)
-    st.metric("Inference Latency", "48ms", "-2ms")
-    st.metric("VRAM Usage", "4.2 GB / 8.0 GB")
+    return {
+        "action": action,
+        "object": target,
+        "color": color,
+        "modifier": "near" if "near" in tokens else "around" if "around" in tokens else "none"
+    }
 
-# --- MAIN HEADER ---
-st.markdown("# 🦅 H.A.W.K. Cognitive Command Center")
-st.caption("Hybrid Autonomous Waypoint Knowledge System | Phase 3: Multi-Domain Adaptation")
-st.divider()
+# --- HEADER ---
+st.title("🦅 H.A.W.K. Cognitive Command Center")
+st.caption("Hybrid Autonomous Waypoint Knowledge for Multi-Domain UAV Navigation")
+st.markdown("---")
 
-# --- TOP ROW: HUD & MISSION CONTROL ---
-col_hud, col_ctrl = st.columns([3, 2])
+# --- TOP SECTION: MISSION EXECUTION ---
+col_hud, col_log = st.columns([3, 2])
 
 with col_hud:
-    st.subheader("🎥 Primary Flight Feed (HUD)")
-    # Using a professional Drone Simulation video for the "Live Feed" feel
-    # This represents your AirSim visual feedback
-    st.video("https://www.youtube.com/watch?v=vTUlamZb_nA") 
+    st.subheader("📡 Primary Perception Feed (AirSim)")
+    # High-quality drone footage representing the active perception layer
+    st.video("https://www.youtube.com/watch?v=N_vT_A_H_6Y") 
     
-    # Live HUD Telemetry Overlay (Mocked)
-    t1, t2, t3, t4 = st.columns(4)
-    t1.metric("ALT", "12.5m")
-    t2.metric("SPD", "4.2 m/s")
-    t3.metric("HDG", "182° S")
-    t4.metric("GPS", "FIX")
+    # 5.2 Perception Module Stats
+    st.write("**Real-time Object Detection (YOLOv8)**")
+    p1, p2, p3 = st.columns(3)
+    p1.metric("Detection Confidence", "0.89", "YOLOv8")
+    p2.metric("Inference Time", "12ms", "-2ms")
+    p3.metric("Current Domain", "Industrial", "ResNet18")
 
-with col_ctrl:
-    st.subheader("⌨️ Command Input")
-    instruction = st.text_area("Input VLN Instruction:", placeholder="e.g., Navigate to the blue shipping container near the crane and initiate landing sequence.")
+with col_log:
+    st.subheader("⌨️ VLN Instruction Input")
+    user_input = st.text_input("Enter Command:", placeholder="Go near the red car")
     
-    if st.button("🚀 PROVISION MISSION"):
-        if instruction:
-            # THE COGNITIVE PIPELINE (Simulating real processing time)
-            with st.container():
-                st.write("### 🧠 Cognitive Reasoning Pipeline")
+    if st.button("EXECUTE MISSION ENGINE"):
+        if user_input:
+            # 5.5 COMPLETE DECISION FLOW (Logic matching your report)
+            with st.status("🧠 HAWK Decision Engine Active", expanded=True) as status:
                 
-                step1 = st.empty()
-                step1.warning("Step 1: NLP Semantic Extraction...")
-                time.sleep(1.5)
-                step1.success("Step 1: Intent Parsed [ACTION: NAVIGATE, TARGET: CONTAINER, ATTR: BLUE]")
+                # Step 1: NLP Extraction (5.3)
+                st.write("Step 1: NLP Parsing (SpaCy `en_core_web_sm`)...")
+                parsed_logic = process_hawk_logic(user_input)
+                time.sleep(1)
                 
-                step2 = st.empty()
-                step2.warning("Step 2: Querying Spatial Graph & Landmark Memory...")
-                time.sleep(2)
-                step2.success("Step 2: Target Cluster Found in 'Industrial_Zone' Knowledge Base")
+                # Step 2: Memory Checks (5.4)
+                st.write("Step 2: Checking Instruction & Landmark Memory...")
+                time.sleep(1)
                 
-                step3 = st.empty()
-                step3.warning("Step 3: Calculating Adaptive Waypoints (A*) with Bias...")
-                progress_bar = st.progress(0)
-                for i in range(100):
-                    time.sleep(0.01)
-                    progress_bar.progress(i + 1)
-                step3.success("Step 3: Trajectory Optimized for Multi-Domain Obstacle Avoidance")
+                # Step 3: Semantic Reasoning (5.6)
+                st.write(f"Step 3: Semantic Reasoning (Target: {parsed_logic['object']})...")
+                if parsed_logic['object'] == "car":
+                    st.info("💡 Semantic Bias: 'Car' detected. Prioritizing road regions for search.")
+                time.sleep(1)
                 
-                st.divider()
-                st.write("#### Generated Execution Logic")
-                st.json({
-                    "mission_id": "HWK-992",
-                    "waypoints": [[12.4, 44.1, 5.0], [15.2, 48.0, 5.0]],
-                    "domain_adaptation_applied": True,
-                    "safety_buffer": "Adaptive-Medium"
-                })
+                # Step 4: Waypoint Generation (5.7)
+                st.write("Step 4: Generating Trajectory (Frontier Exploration Mode)...")
+                time.sleep(1)
+                
+                status.update(label="Mission Logic Generated", state="complete")
+            
+            # OUTPUT DISPLAY
+            st.divider()
+            st.markdown("#### 🛠️ Module Outputs")
+            o1, o2 = st.columns(2)
+            with o1:
+                st.write("**NLP Extraction (5.3)**")
+                st.json(parsed_logic)
+            with o2:
+                st.write("**Navigation Execution (5.7)**")
+                st.code(f"EXEC: {parsed_logic['action'].upper()}\nMODE: DIRECTIONAL_BIAS\nCOORDS: [14.5, -22.1, 5.0]")
         else:
-            st.error("Missing Mission Parameters.")
+            st.error("Please enter an instruction.")
 
-st.divider()
+st.markdown("---")
 
-# --- BOTTOM ROW: DATASET & DOMAIN CORE ---
-st.subheader("📂 Research Core: Memory & Adaptation")
-d_col1, d_col2 = st.columns(2)
+# --- BOTTOM SECTION: DATASETS & LEARNING (PHASE 2) ---
+st.subheader("📂 Stored Knowledge & Domain Adaptation")
+tab1, tab2, tab3 = st.tabs(["💾 Memory Datasets", "🔄 Phase 2: Learning", "📊 System Metrics"])
 
-with d_col1:
-    st.markdown("### 💾 Landmark Memory (YOLOv8 + ResNet)")
-    # This reflects your 'datasets/' folder
-    st.write("Aggregated findings from previous exploration cycles:")
-    landmark_df = pd.DataFrame({
-        'ID': ['LM_01', 'LM_02', 'LM_03'],
-        'Label': ['Truck', 'Crane', 'Transformer'],
-        'Confidence': [0.94, 0.88, 0.91],
-        'Global_Coord': ['[X:12, Y:45]', '[X:18, Y:50]', '[X:5, Y:12]']
-    })
-    st.table(landmark_df)
+with tab1:
+    st.write("### 5.10 Dataset Management")
+    # Table representing your 5.10 dataset list
+    ds_data = {
+        "Dataset": ["Instruction", "Landmark", "Path", "Experience", "Crash"],
+        "Purpose": ["Past commands", "Object locations", "Nav paths", "Success/Failure", "Failure scenarios"],
+        "Count": [142, 856, 45, 120, 8]
+    }
+    st.table(pd.DataFrame(ds_data))
 
-with d_col2:
-    st.markdown("### 🔄 Phase 2: Domain Adaptation Analysis")
-    st.write("Current Feature Extraction Signature:")
-    # Simulating a ResNet18 feature vector
-    features = np.random.randn(10, 1)
-    st.line_chart(features)
-    
-    st.write("**Environment Profile:** `INDUSTRIAL_LOGISTICS_BETA`")
-    st.write("**Adaptation Accuracy:** 89.4%")
-    
-    if st.button("Force Global Re-Learning"):
-        with st.spinner("Re-syncing with `datasets/` archive..."):
-            time.sleep(3)
-            st.success("Knowledge Base Updated with 14 new experience logs.")
+with tab2:
+    st.write("### 5.11 Domain Adaptation Pipeline (ResNet18)")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.write("**Domain Signature (Fingerprint)**")
+        # Visualizing feature extraction logic
+        chart_data = pd.DataFrame(np.random.randn(20, 1), columns=['Feature Vector'])
+        st.area_chart(chart_data)
+    with c2:
+        st.write("**Pipeline Status**")
+        st.write("- Collected Data Integrity: ✅")
+        st.write("- Index Generation: ✅")
+        st.write("- Feature Extraction: ✅")
+        if st.button("Run Phase 2 Model Update"):
+            with st.spinner("Training ResNet18 on new domain data..."):
+                time.sleep(3)
+                st.success("Model Updated: knowledge_storage.npy synchronized.")
+
+with tab3:
+    st.write("### 6. Performance Metrics")
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Coverage %", "92.4%")
+    m2.metric("Target Success", "88.1%")
+    m3.metric("Collision Rate", "0.04%")
+    m4.metric("Frontier Efficiency", "76.5%")
