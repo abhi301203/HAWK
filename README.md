@@ -358,9 +358,9 @@ Feel free to fork the repository and submit pull requests.
 
 👨‍💻 Authors
 
-Abhinav Samala
-Tharun Nalamasu
-Rishikesh Tingirikar
+Abhinav Samala . 
+Tharun Nalamasu . 
+Rishikesh Tingirikar. 
 Sasiram Anupoju
 
 
