@@ -1,119 +1,124 @@
 import streamlit as st
 import time
 import pandas as pd
+import numpy as np
 
-# --- UI CONFIG ---
-st.set_page_config(page_title="HAWK | UAV Intelligence", page_icon="🦅", layout="wide")
+# --- CONFIG & THEME ---
+st.set_page_config(page_title="HAWK Research Console", page_icon="🦅", layout="wide")
 
-# Custom CSS for a "Dark Mode" Tech feel
+# Graduate-Level CSS (Tech-Dark)
 st.markdown("""
     <style>
-    .main { background-color: #0e1117; color: #ffffff; }
-    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #262730; color: white; border: 1px solid #464b5d; }
-    .stButton>button:hover { border: 1px solid #ff4b4b; color: #ff4b4b; }
-    .reportview-container .main .block-container { padding-top: 2rem; }
+    .main { background-color: #06090e; color: #c9d1d9; }
+    .stProgress > div > div > div > div { background-image: linear-gradient(to right, #1f6feb , #58a6ff); }
+    .reportview-container { background: #0d1117; }
+    .css-1offfwp { padding: 1rem; border-radius: 10px; background-color: #161b22; border: 1px solid #30363d; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- HEADER ---
-col_logo, col_title = st.columns([1, 5])
-with col_logo:
-    st.title("🦅")
-with col_title:
-    st.title("H.A.W.K. MISSION CONTROL")
-    st.caption("Hybrid Autonomous Waypoint Knowledge | Multi-Domain Navigation System")
-
-st.divider()
-
-# --- SIDEBAR: SYSTEM METRICS ---
+# --- SIDEBAR: SYSTEM DIAGNOSTICS ---
 with st.sidebar:
-    st.header("🛸 Drone Telemetry")
-    st.status("WSL Environment: CONNECTED", state="complete")
-    st.status("AirSim Link: VIRTUAL_ACTIVE", state="running")
-    st.status("YOLOv8 Engine: LOADED", state="complete")
+    st.title("🛸 H.A.W.K. v2.4")
+    st.markdown("---")
+    st.subheader("📡 Environment Link")
+    st.success("WSL2 / Ubuntu 22.04: ACTIVE")
+    st.info("AirSim API v1.8.1: CONNECTED")
     
-    st.divider()
-    st.subheader("Memory Stats")
-    st.progress(78, text="Landmark Memory Density")
-    st.progress(42, text="Domain Adaptation Progress")
-    
-    if st.button("🚨 Emergency Land"):
-        st.error("Emergency Protocol Initiated...")
+    st.markdown("---")
+    st.subheader("🔋 Onboard Compute")
+    cpu_load = st.slider("CPU Load (Agent)", 0, 100, 42)
+    st.metric("Inference Latency", "48ms", "-2ms")
+    st.metric("VRAM Usage", "4.2 GB / 8.0 GB")
 
-# --- MAIN INTERFACE: 3 COLUMNS ---
-top_left, top_right = st.columns([2, 1])
+# --- MAIN HEADER ---
+st.markdown("# 🦅 H.A.W.K. Cognitive Command Center")
+st.caption("Hybrid Autonomous Waypoint Knowledge System | Phase 3: Multi-Domain Adaptation")
+st.divider()
 
-with top_left:
-    st.subheader("📡 Live Perception & Command")
-    command = st.text_input("Human-Language Command:", placeholder="e.g., Find the red car and hover nearby")
+# --- TOP ROW: HUD & MISSION CONTROL ---
+col_hud, col_ctrl = st.columns([3, 2])
+
+with col_hud:
+    st.subheader("🎥 Primary Flight Feed (HUD)")
+    # Using a professional Drone Simulation video for the "Live Feed" feel
+    # This represents your AirSim visual feedback
+    st.video("https://www.youtube.com/watch?v=vTUlamZb_nA") 
     
-    if st.button("Execute Mission"):
-        if command:
-            with st.status("Processing Instruction...", expanded=True) as status:
-                st.write("🔍 Parsing Natural Language (SpaCy)...")
-                time.sleep(1)
-                st.write("🧠 Querying Object Cluster Memory...")
-                time.sleep(1)
-                st.write("🗺️ Generating Adaptive Waypoints...")
-                time.sleep(1)
-                status.update(label="Mission Logic Compiled!", state="complete", expanded=False)
-            
-            # Show the "Brain" Logic
-            res_col1, res_col2 = st.columns(2)
-            with res_col1:
-                st.info("**Extracted Intent**")
-                st.json({"action": "SEARCH_DESCEND", "target": "car", "attr": "red"})
-            with res_col2:
-                st.success("**Navigation Path**")
-                st.code("WAYPOINT_A: [45.2, 12.8]\nWAYPOINT_B: [46.1, 13.0]\nMODE: FRONTIER_EXPLORATION")
+    # Live HUD Telemetry Overlay (Mocked)
+    t1, t2, t3, t4 = st.columns(4)
+    t1.metric("ALT", "12.5m")
+    t2.metric("SPD", "4.2 m/s")
+    t3.metric("HDG", "182° S")
+    t4.metric("GPS", "FIX")
+
+with col_ctrl:
+    st.subheader("⌨️ Command Input")
+    instruction = st.text_area("Input VLN Instruction:", placeholder="e.g., Navigate to the blue shipping container near the crane and initiate landing sequence.")
+    
+    if st.button("🚀 PROVISION MISSION"):
+        if instruction:
+            # THE COGNITIVE PIPELINE (Simulating real processing time)
+            with st.container():
+                st.write("### 🧠 Cognitive Reasoning Pipeline")
+                
+                step1 = st.empty()
+                step1.warning("Step 1: NLP Semantic Extraction...")
+                time.sleep(1.5)
+                step1.success("Step 1: Intent Parsed [ACTION: NAVIGATE, TARGET: CONTAINER, ATTR: BLUE]")
+                
+                step2 = st.empty()
+                step2.warning("Step 2: Querying Spatial Graph & Landmark Memory...")
+                time.sleep(2)
+                step2.success("Step 2: Target Cluster Found in 'Industrial_Zone' Knowledge Base")
+                
+                step3 = st.empty()
+                step3.warning("Step 3: Calculating Adaptive Waypoints (A*) with Bias...")
+                progress_bar = st.progress(0)
+                for i in range(100):
+                    time.sleep(0.01)
+                    progress_bar.progress(i + 1)
+                step3.success("Step 3: Trajectory Optimized for Multi-Domain Obstacle Avoidance")
+                
+                st.divider()
+                st.write("#### Generated Execution Logic")
+                st.json({
+                    "mission_id": "HWK-992",
+                    "waypoints": [[12.4, 44.1, 5.0], [15.2, 48.0, 5.0]],
+                    "domain_adaptation_applied": True,
+                    "safety_buffer": "Adaptive-Medium"
+                })
         else:
-            st.warning("Please enter a command first.")
-
-with top_right:
-    st.subheader("📸 Vision Feed (Sim)")
-    # This acts as a placeholder for your YOLO detections
-    st.image("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=400", caption="HAWK Raw Perception Feed")
-    st.metric("Detected Objects", "7", "+2")
+            st.error("Missing Mission Parameters.")
 
 st.divider()
 
-# --- BOTTOM SECTION: THE ARCHITECTURE SHOWCASE ---
-st.subheader("📂 System Core Exploration")
-tab1, tab2, tab3, tab4 = st.tabs(["🧠 Reasoning", "💾 Memory", "🔄 Learning", "📊 Metrics"])
+# --- BOTTOM ROW: DATASET & DOMAIN CORE ---
+st.subheader("📂 Research Core: Memory & Adaptation")
+d_col1, d_col2 = st.columns(2)
 
-with tab1:
-    st.write("### Semantic Reasoning Engine")
-    st.write("HAWK uses a cross-dataset reasoning flow to understand environment context.")
-    st.code("""
-    if target == 'car' and domain == 'urban':
-        bias = DIRECTIONAL_SEARCH_ROAD
-    elif target == 'car' and domain == 'forest':
-        bias = CRASH_PREVENTION_ACTIVE
-    """, language="python")
+with d_col1:
+    st.markdown("### 💾 Landmark Memory (YOLOv8 + ResNet)")
+    # This reflects your 'datasets/' folder
+    st.write("Aggregated findings from previous exploration cycles:")
+    landmark_df = pd.DataFrame({
+        'ID': ['LM_01', 'LM_02', 'LM_03'],
+        'Label': ['Truck', 'Crane', 'Transformer'],
+        'Confidence': [0.94, 0.88, 0.91],
+        'Global_Coord': ['[X:12, Y:45]', '[X:18, Y:50]', '[X:5, Y:12]']
+    })
+    st.table(landmark_df)
 
-with tab2:
-    st.write("### Persistent Memory Datasets")
-    # This visualizes the files you have in your 'datasets/' folder
-    data = {
-        "Dataset": ["Instruction", "Landmark", "Path", "Experience", "Crash"],
-        "Entries": [150, 420, 89, 210, 15],
-        "Status": ["Synced", "Synced", "Updating", "Synced", "Alert"]
-    }
-    st.dataframe(pd.DataFrame(data), use_container_width=True)
-
-with tab3:
-    st.write("### Phase 2: Domain Adaptation")
-    st.write("The ResNet18 backbone extracts signatures from new environments to update the model.")
-    if st.button("Trigger Domain Re-Sync"):
-        with st.spinner("Analyzing environment signatures..."):
-            time.sleep(2)
-            st.success("New Domain Detected: 'Industrial_Zone_Beta'. Signature updated.")
-
-with tab4:
-    st.write("### Performance Metrics")
-    m1, m2, m3 = st.columns(3)
-    m1.metric("Coverage %", "94.2%", "+2.1%")
-    m2.metric("Collision Rate", "0.02%", "-0.01%")
-    m3.metric("Path Efficiency", "88.5%", "+5.4%")
-
-st.balloons()
+with d_col2:
+    st.markdown("### 🔄 Phase 2: Domain Adaptation Analysis")
+    st.write("Current Feature Extraction Signature:")
+    # Simulating a ResNet18 feature vector
+    features = np.random.randn(10, 1)
+    st.line_chart(features)
+    
+    st.write("**Environment Profile:** `INDUSTRIAL_LOGISTICS_BETA`")
+    st.write("**Adaptation Accuracy:** 89.4%")
+    
+    if st.button("Force Global Re-Learning"):
+        with st.spinner("Re-syncing with `datasets/` archive..."):
+            time.sleep(3)
+            st.success("Knowledge Base Updated with 14 new experience logs.")
