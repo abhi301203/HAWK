@@ -1,0 +1,21 @@
+{
+    "domain": "blocks_day",
+    "collisions": 2,
+    "successful_escapes": 1,
+    "images_captured": 212,
+    "distance_travelled": 255.33,
+    "runtime_minutes": 22.39,
+    "locked_collision_zones": 6,
+    "start_heading": "East",
+    "heading_cycle_number": 6,
+    "total_yaw_rotations": 212,
+    "number_of_grid_rows_completed": 7,
+    "number_of_direction_switches": 7,
+    "total_grid_cells_attempted": 57,
+    "grid_cells_completed": 53,
+    "grid_cells_blocked": 4,
+    "coverage_percentage": 92.98,
+    "images_per_minute": 9.47,
+    "distance_per_minute": 11.4,
+    "collision_rate_per_minute": 0.09
+}

@@ -1,0 +1,2114 @@
+{
+    "cells": {
+        "-3_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902278368_0.png",
+                "img_1772902281868_1.png",
+                "img_1772902285485_2.png",
+                "img_1772902289096_3.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-2_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902295144_4.png",
+                "img_1772902298745_5.png",
+                "img_1772902302359_6.png",
+                "img_1772902306004_7.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-1_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902312680_8.png",
+                "img_1772902316336_9.png",
+                "img_1772902319979_10.png",
+                "img_1772902323641_11.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "0_-3": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902513466_48.png",
+                "img_1772902517089_49.png",
+                "img_1772902520696_50.png",
+                "img_1772902524319_51.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "0_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902332665_12.png",
+                "img_1772902336376_13.png",
+                "img_1772902340054_14.png",
+                "img_1772902343864_15.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "1_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902350166_16.png",
+                "img_1772902353814_17.png",
+                "img_1772902357445_18.png",
+                "img_1772902361069_19.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "2_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902367721_20.png",
+                "img_1772902371337_21.png",
+                "img_1772902374990_22.png",
+                "img_1772902378600_23.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "3_-5": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "3_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902389413_24.png",
+                "img_1772902393049_25.png",
+                "img_1772902396680_26.png",
+                "img_1772902400312_27.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "4_-4": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902406864_28.png",
+                "img_1772902410496_29.png",
+                "img_1772902414128_30.png",
+                "img_1772902417746_31.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "4_-3": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902424239_32.png",
+                "img_1772902427809_33.png",
+                "img_1772902431437_34.png",
+                "img_1772902435101_35.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "5_-2": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "3_-3": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902446927_36.png",
+                "img_1772902450516_37.png",
+                "img_1772902454103_38.png",
+                "img_1772902457681_39.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "2_-3": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902464341_40.png",
+                "img_1772902467932_41.png",
+                "img_1772902471555_42.png",
+                "img_1772902475115_43.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "1_-3": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902481935_44.png",
+                "img_1772902485559_45.png",
+                "img_1772902489197_46.png",
+                "img_1772902492832_47.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "4_-1": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "-1_-3": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902531044_52.png",
+                "img_1772902534641_53.png",
+                "img_1772902538285_54.png",
+                "img_1772902541909_55.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-2_-3": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902548565_56.png",
+                "img_1772902552194_57.png",
+                "img_1772902555812_58.png",
+                "img_1772902559389_59.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "2_-6": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "-1_-10": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 0.1117159905596905,
+            "images": [
+                "img_1772902785855_0.png",
+                "img_1772902789472_1.png",
+                "img_1772902793095_2.png",
+                "img_1772902796701_3.png",
+                "img_1772905064102_36.png",
+                "img_1772905067698_37.png",
+                "img_1772905071334_38.png",
+                "img_1772905074893_39.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "0_-10": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902802774_4.png",
+                "img_1772902806370_5.png",
+                "img_1772902809987_6.png",
+                "img_1772902813612_7.png",
+                "img_1772905026040_32.png",
+                "img_1772905029683_33.png",
+                "img_1772905033318_34.png",
+                "img_1772905036882_35.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "1_-10": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902820309_8.png",
+                "img_1772902823930_9.png",
+                "img_1772902827581_10.png",
+                "img_1772902831162_11.png",
+                "img_1772905008997_28.png",
+                "img_1772905012561_29.png",
+                "img_1772905016159_30.png",
+                "img_1772905019767_31.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "2_-11": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903586944_36.png",
+                "img_1772903590552_37.png",
+                "img_1772903594179_38.png",
+                "img_1772903597780_39.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "2_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902841943_12.png",
+                "img_1772902845582_13.png",
+                "img_1772902849244_14.png",
+                "img_1772902852868_15.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "3_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902859333_16.png",
+                "img_1772902862928_17.png",
+                "img_1772902866541_18.png",
+                "img_1772902870113_19.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "4_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902876791_20.png",
+                "img_1772902880381_21.png",
+                "img_1772902884038_22.png",
+                "img_1772902887615_23.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "5_-11": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "5_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902898371_24.png",
+                "img_1772902901978_25.png",
+                "img_1772902905623_26.png",
+                "img_1772902909209_27.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "6_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902915619_28.png",
+                "img_1772902919208_29.png",
+                "img_1772902922817_30.png",
+                "img_1772902926383_31.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "6_-9": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902932838_32.png",
+                "img_1772902936398_33.png",
+                "img_1772902940043_34.png",
+                "img_1772902943622_35.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "7_-11": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "5_-9": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902959019_36.png",
+                "img_1772902962590_37.png",
+                "img_1772902966229_38.png",
+                "img_1772902969791_39.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "4_-9": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902976454_40.png",
+                "img_1772902980072_41.png",
+                "img_1772902983689_42.png",
+                "img_1772902987301_43.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "3_-9": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772902994185_44.png",
+                "img_1772902997783_45.png",
+                "img_1772903001391_46.png",
+                "img_1772903005030_47.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "4_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "2_-9": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903024714_48.png",
+                "img_1772903028300_49.png",
+                "img_1772903031920_50.png",
+                "img_1772903035518_51.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "1_-9": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903042153_52.png",
+                "img_1772903045748_53.png",
+                "img_1772903049341_54.png",
+                "img_1772903052903_55.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "0_-9": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903059504_56.png",
+                "img_1772903063106_57.png",
+                "img_1772903066708_58.png",
+                "img_1772903070299_59.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-1_-8": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "-4_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903406666_0.png",
+                "img_1772903410316_1.png",
+                "img_1772903413955_2.png",
+                "img_1772903417528_3.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-3_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903423549_4.png",
+                "img_1772903427159_5.png",
+                "img_1772903430820_6.png",
+                "img_1772903434405_7.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-2_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903441035_8.png",
+                "img_1772903444621_9.png",
+                "img_1772903448267_10.png",
+                "img_1772903451858_11.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "1_-12": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903501284_20.png",
+                "img_1772903504894_21.png",
+                "img_1772903508564_22.png",
+                "img_1772903512156_23.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-1_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903466896_12.png",
+                "img_1772903470505_13.png",
+                "img_1772903474137_14.png",
+                "img_1772903477752_15.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "0_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903483782_16.png",
+                "img_1772903487420_17.png",
+                "img_1772903491075_18.png",
+                "img_1772903494650_19.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "2_-13": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "2_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903523172_24.png",
+                "img_1772903526733_25.png",
+                "img_1772903530367_26.png",
+                "img_1772903533910_27.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "3_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903540382_28.png",
+                "img_1772903543968_29.png",
+                "img_1772903547602_30.png",
+                "img_1772903551213_31.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "3_-11": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903557711_32.png",
+                "img_1772903561285_33.png",
+                "img_1772903564946_34.png",
+                "img_1772903568547_35.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "5_-13": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "1_-11": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903604379_40.png",
+                "img_1772903608013_41.png",
+                "img_1772903611644_42.png",
+                "img_1772903615217_43.png",
+                "img_1772904992158_24.png",
+                "img_1772904995767_25.png",
+                "img_1772904999363_26.png",
+                "img_1772905002960_27.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "0_-11": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903621866_44.png",
+                "img_1772903625477_45.png",
+                "img_1772903629117_46.png",
+                "img_1772903632689_47.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "1_-14": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "-1_-11": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903652464_48.png",
+                "img_1772903656102_49.png",
+                "img_1772903659720_50.png",
+                "img_1772903663320_51.png",
+                "img_1772904950030_20.png",
+                "img_1772904953600_21.png",
+                "img_1772904957249_22.png",
+                "img_1772904960852_23.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-2_-11": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 2.490396280981723,
+            "images": [
+                "img_1772903669819_52.png",
+                "img_1772903673447_53.png",
+                "img_1772903677070_54.png",
+                "img_1772903680648_55.png",
+                "img_1772904932312_16.png",
+                "img_1772904936103_17.png",
+                "img_1772904939764_18.png",
+                "img_1772904943373_19.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-3_-11": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 4.141485366207062,
+            "images": [
+                "img_1772903687480_56.png",
+                "img_1772903691088_57.png",
+                "img_1772903694735_58.png",
+                "img_1772903698299_59.png",
+                "img_1772904914846_12.png",
+                "img_1772904918426_13.png",
+                "img_1772904922049_14.png",
+                "img_1772904925620_15.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-3_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "-6_-14": {
+            "visit_count": 3,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 3,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903844928_0.png",
+                "img_1772903848527_1.png",
+                "img_1772903852144_2.png",
+                "img_1772903855705_3.png",
+                "img_1772904505299_12.png",
+                "img_1772904508864_13.png",
+                "img_1772904512476_14.png",
+                "img_1772904516050_15.png",
+                "img_1772905451181_8.png",
+                "img_1772905454800_9.png",
+                "img_1772905458395_10.png",
+                "img_1772905461976_11.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 12,
+            "exploration_success": 1
+        },
+        "-5_-14": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 1.1956859991281883,
+            "images": [
+                "img_1772903862156_4.png",
+                "img_1772903865702_5.png",
+                "img_1772903869353_6.png",
+                "img_1772903873068_7.png",
+                "img_1772904522351_16.png",
+                "img_1772904525986_17.png",
+                "img_1772904529597_18.png",
+                "img_1772904533228_19.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-4_-14": {
+            "visit_count": 3,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 3,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 0.8256788155930401,
+            "images": [
+                "img_1772903879743_8.png",
+                "img_1772903883340_9.png",
+                "img_1772903886942_10.png",
+                "img_1772903890522_11.png",
+                "img_1772904540043_20.png",
+                "img_1772904543670_21.png",
+                "img_1772904547308_22.png",
+                "img_1772904550877_23.png",
+                "img_1772905492552_12.png",
+                "img_1772905496150_13.png",
+                "img_1772905499815_14.png",
+                "img_1772905503360_15.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 12,
+            "exploration_success": 1
+        },
+        "-2_-14": {
+            "visit_count": 3,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 3,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903921341_12.png",
+                "img_1772903924963_13.png",
+                "img_1772903928612_14.png",
+                "img_1772903932201_15.png",
+                "img_1772904581557_24.png",
+                "img_1772904585109_25.png",
+                "img_1772904588736_26.png",
+                "img_1772904592330_27.png",
+                "img_1772905527614_20.png",
+                "img_1772905531203_21.png",
+                "img_1772905534822_22.png",
+                "img_1772905538373_23.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 12,
+            "exploration_success": 1
+        },
+        "-1_-14": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903938847_16.png",
+                "img_1772903942454_17.png",
+                "img_1772903946090_18.png",
+                "img_1772903949695_19.png",
+                "img_1772904598974_28.png",
+                "img_1772904602580_29.png",
+                "img_1772904606204_30.png",
+                "img_1772904609803_31.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "0_-14": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903956340_20.png",
+                "img_1772903959950_21.png",
+                "img_1772903963601_22.png",
+                "img_1772903967198_23.png",
+                "img_1772904616632_32.png",
+                "img_1772904620267_33.png",
+                "img_1772904623902_34.png",
+                "img_1772904627493_35.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "1_-13": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772903996795_24.png",
+                "img_1772904000466_25.png",
+                "img_1772904004091_26.png",
+                "img_1772904007674_27.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "0_-13": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772904013990_28.png",
+                "img_1772904017595_29.png",
+                "img_1772904021208_30.png",
+                "img_1772904024797_31.png",
+                "img_1772904654431_36.png",
+                "img_1772904658135_37.png",
+                "img_1772904661794_38.png",
+                "img_1772904665370_39.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-1_-13": {
+            "visit_count": 3,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 3,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772904031505_32.png",
+                "img_1772904035126_33.png",
+                "img_1772904038767_34.png",
+                "img_1772904042345_35.png",
+                "img_1772904671440_40.png",
+                "img_1772904675027_41.png",
+                "img_1772904678660_42.png",
+                "img_1772904682293_43.png",
+                "img_1772905567965_24.png",
+                "img_1772905571555_25.png",
+                "img_1772905575154_26.png",
+                "img_1772905578713_27.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 12,
+            "exploration_success": 1
+        },
+        "-2_-13": {
+            "visit_count": 3,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 3,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772904070312_36.png",
+                "img_1772904073893_37.png",
+                "img_1772904077526_38.png",
+                "img_1772904081126_39.png",
+                "img_1772904689141_44.png",
+                "img_1772904692742_45.png",
+                "img_1772904696380_46.png",
+                "img_1772904699967_47.png",
+                "img_1772905584951_28.png",
+                "img_1772905588581_29.png",
+                "img_1772905592181_30.png",
+                "img_1772905595771_31.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 12,
+            "exploration_success": 1
+        },
+        "-3_-13": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 0.8378537316706147,
+            "images": [
+                "img_1772904087442_40.png",
+                "img_1772904091055_41.png",
+                "img_1772904094694_42.png",
+                "img_1772904098297_43.png",
+                "img_1772905602580_32.png",
+                "img_1772905606171_33.png",
+                "img_1772905609780_34.png",
+                "img_1772905613341_35.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-4_-13": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772904104957_44.png",
+                "img_1772904108605_45.png",
+                "img_1772904112276_46.png",
+                "img_1772904115838_47.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-7_-16": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772904425822_0.png",
+                "img_1772904429355_1.png",
+                "img_1772904432996_2.png",
+                "img_1772904436571_3.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-8_-14": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772904449711_4.png",
+                "img_1772904453266_5.png",
+                "img_1772904456889_6.png",
+                "img_1772904460447_7.png",
+                "img_1772905416825_0.png",
+                "img_1772905420423_1.png",
+                "img_1772905424022_2.png",
+                "img_1772905427603_3.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-7_-14": {
+            "visit_count": 2,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 2,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 0.0261884198424287,
+            "images": [
+                "img_1772904466482_8.png",
+                "img_1772904470110_9.png",
+                "img_1772904473765_10.png",
+                "img_1772904477351_11.png",
+                "img_1772905433578_4.png",
+                "img_1772905437193_5.png",
+                "img_1772905440807_6.png",
+                "img_1772905444354_7.png"
+            ],
+            "altitudes": [
+                -5.0,
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 8,
+            "exploration_success": 1
+        },
+        "-6_-11": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 0.44445426061617255,
+            "images": [
+                "img_1772904850507_0.png",
+                "img_1772904854103_1.png",
+                "img_1772904857701_2.png",
+                "img_1772904861305_3.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-5_-11": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 2.499230339807763,
+            "images": [
+                "img_1772904867298_4.png",
+                "img_1772904870894_5.png",
+                "img_1772904874505_6.png",
+                "img_1772904878078_7.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-4_-11": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 4.442231388802868,
+            "images": [
+                "img_1772904884886_8.png",
+                "img_1772904888490_9.png",
+                "img_1772904892117_10.png",
+                "img_1772904895730_11.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-7_-12": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "-2_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 4.063985804142085,
+            "images": [
+                "img_1772905081098_40.png",
+                "img_1772905084657_41.png",
+                "img_1772905088300_42.png",
+                "img_1772905091910_43.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-4_-10": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 3.9309691783984393,
+            "images": [
+                "img_1772905100573_44.png",
+                "img_1772905104184_45.png",
+                "img_1772905107848_46.png",
+                "img_1772905111407_47.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-4_-5": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [],
+            "altitudes": [],
+            "yaws": [],
+            "image_count": 0,
+            "exploration_success": 0
+        },
+        "-3_-14": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772905509976_16.png",
+                "img_1772905513591_17.png",
+                "img_1772905517216_18.png",
+                "img_1772905520800_19.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-5_-13": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 5.0080193349882896,
+            "images": [
+                "img_1772905643835_36.png",
+                "img_1772905647447_37.png",
+                "img_1772905651070_38.png",
+                "img_1772905654607_39.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-6_-13": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": true,
+            "collision_penalty": 2.0183820863219957,
+            "images": [
+                "img_1772905661318_40.png",
+                "img_1772905664928_41.png",
+                "img_1772905668550_42.png",
+                "img_1772905672116_43.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        },
+        "-7_-13": {
+            "visit_count": 1,
+            "entropy_score": 0.0,
+            "interest_score": 0.0,
+            "heat_value": 1,
+            "information_gain": 0.0,
+            "near_obstacle": false,
+            "collision_penalty": 0,
+            "images": [
+                "img_1772905678756_44.png",
+                "img_1772905682362_45.png",
+                "img_1772905685967_46.png",
+                "img_1772905689543_47.png"
+            ],
+            "altitudes": [
+                -5.0
+            ],
+            "yaws": [
+                0,
+                90,
+                180,
+                270
+            ],
+            "image_count": 4,
+            "exploration_success": 1
+        }
+    }
+}

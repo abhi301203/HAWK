@@ -1,0 +1,20 @@
+{
+    "domain": "blocks_day",
+    "runtime_minutes": 10.05,
+    "images_captured": 68,
+    "collisions": 0,
+    "successful_escapes": 0,
+    "distance_travelled": 516.8,
+    "total_grid_cells_attempted": 20,
+    "grid_cells_completed": 17,
+    "grid_cells_blocked": 0,
+    "coverage_percentage": 85.0,
+    "total_yaw_rotations": 68,
+    "number_of_grid_rows_completed": 0,
+    "number_of_direction_switches": 0,
+    "images_per_minute": 6.77,
+    "distance_per_minute": 51.43,
+    "collision_rate_per_minute": 0.0,
+    "stuck_events_count": 0,
+    "forced_relocations": 0
+}

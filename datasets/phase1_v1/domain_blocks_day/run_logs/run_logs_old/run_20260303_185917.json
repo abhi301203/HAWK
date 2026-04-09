@@ -1,0 +1,17 @@
+{
+    "domain": "blocks_day",
+    "collisions": 1,
+    "images_captured": 240,
+    "distance_travelled": 256.28,
+    "runtime_minutes": 15.08,
+    "grid_rows_completed": 7,
+    "direction_switches": 7,
+    "total_yaw_rotations": 240,
+    "total_grid_cells_attempted": 61,
+    "grid_cells_completed": 60,
+    "grid_cells_blocked": 1,
+    "coverage_percentage": 98.36,
+    "images_per_minute": 15.91,
+    "distance_per_minute": 16.99,
+    "collision_rate_per_minute": 0.07
+}

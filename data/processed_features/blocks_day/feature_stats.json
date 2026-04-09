@@ -1,0 +1,6 @@
+{
+    "num_images": 2000,
+    "feature_dimension": 512,
+    "mean_norm": 22.6036319732666,
+    "std_mean": 0.5156058073043823
+}

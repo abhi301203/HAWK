@@ -1,0 +1,13 @@
+[
+    {
+        "instruction": "{'type': 'instruction', 'value': 'go to car'}",
+        "start": null,
+        "target": null,
+        "path": [
+            [
+                -9.077108816785941,
+                -4.372989092344697
+            ]
+        ]
+    }
+]

@@ -1,0 +1,28 @@
+{
+    "collisions": 0,
+    "successful_escapes": 0,
+    "images_captured": 256,
+    "distance_travelled": 76.39862470869213,
+    "runtime_minutes": 15.04,
+    "locked_collision_zones": 0,
+    "start_heading": "East",
+    "total_yaw_rotations": 257,
+    "number_of_grid_rows_completed": 6,
+    "number_of_direction_switches": 6,
+    "average_step_displacement": 1.1937285110733142,
+    "stuck_events_count": 0,
+    "forced_relocations": 0,
+    "altitude_layers_used": [
+        -5,
+        -7
+    ],
+    "escape_attempt_distribution": [],
+    "total_grid_cells_attempted": 65,
+    "grid_cells_completed": 64,
+    "grid_cells_blocked": 0,
+    "coverage_percentage": 98.46,
+    "images_per_minute": 17.02,
+    "distance_per_minute": 5.08,
+    "collision_rate_per_minute": 0.0,
+    "escape_success_rate": 0
+}

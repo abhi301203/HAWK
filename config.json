@@ -1,0 +1,64 @@
+{
+    "domain_name": "city",
+
+    "environment_settings": {
+        "grid_size": 60,
+        "step_size": 4,
+        "altitudes": [-5, -7],
+        "centered_grid": true
+    },
+
+    "run_limits": {
+        "max_images_per_run": 400,
+        "max_runtime_minutes": 5
+    },
+
+    "movement_settings": {
+        "start_heading": "auto",
+        "capture_four_directions": true,
+        "movement_speed": 2,
+        "yaw_rotation_degrees": 90
+    },
+
+    "collision_settings": {
+        "enable_collision_memory": true,
+        "collision_radius": 2.0,
+        "escape_distance": 2,
+        "max_escape_attempts": 3
+    },
+
+    "logging_settings": {
+        "enable_master_log": true,
+        "enable_collision_log": true,
+        "log_efficiency_metrics": true,
+        "log_direction_metrics": true
+    },
+
+    "domain_adaptation_settings": {
+        "enable_phase2_adaptation": true,
+        "domain_shift_threshold": 0.1,
+        "adaptive_step_size": false,
+        "adaptive_altitude": false
+    },
+
+    "visit_map_settings": {
+        "enable_visit_map": true,
+        "grid_resolution": 4,
+        "enable_frontier_navigation": true,
+        "frontier_search_radius": 4,
+        "coverage_stop_threshold": 95
+    },
+
+    "metrics_settings": {
+
+    "enable_exploration_metrics": true,
+    "enable_frontier_metrics": true,
+    "enable_collision_metrics": true,
+    "enable_decision_metrics": true,
+
+    "enable_phase2_metrics": true,
+    "enable_phase3_metrics": true
+    }
+
+}
+

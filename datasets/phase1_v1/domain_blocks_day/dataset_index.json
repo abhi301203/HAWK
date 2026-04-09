@@ -1,0 +1,13 @@
+{
+    "domain": "blocks_day",
+    "created_on": "2026-04-09T07:05:27.688838",
+    "paths": {
+        "images_root": "blocks_day",
+        "visit_maps": "visit_map",
+        "collision_logs": "collision_logs",
+        "map_metadata": "map_metadata/map_metadata.json",
+        "run_logs": "run_logs"
+    },
+    "image_format": "png",
+    "metadata_file": "metadata.json"
+}

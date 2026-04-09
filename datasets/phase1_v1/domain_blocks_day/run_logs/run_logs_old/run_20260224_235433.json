@@ -1,0 +1,8 @@
+{
+    "collisions": 30,
+    "successful_escapes": 30,
+    "images_captured": 228,
+    "distance_travelled": 114,
+    "runtime_minutes": 15.65,
+    "locked_collision_zones": 31
+}
