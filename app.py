@@ -41,28 +41,29 @@ if 'drone_pos' not in st.session_state: st.session_state.drone_pos = [2, 43]
 if 'history' not in st.session_state: st.session_state.history = []
 if 'discovered' not in st.session_state: st.session_state.discovered = []
 
-# --- 3. THE RENDER ENGINE ---
+# --- 3. THE RENDER ENGINE (Fixed Boolean Logic) ---
 def render_city_map(drone_x, drone_y, trail_x=None, trail_y=None):
     fig = go.Figure()
-    # Nature & Roads
-    fig.add_trace(go.Scatter(x=CITY_ASSETS["nature"]["pond"]["x"], y=CITY_ASSETS["nature"]["pond"]["y"], fill="toself", fillcolor="blue", opacity=0.3, mode='lines', name="Pond", hoverinfo='skip'))
-    fig.add_trace(go.Scatter(x=CITY_ASSETS["nature"]["park"]["x"], y=CITY_ASSETS["nature"]["park"]["y"], fill="toself", fillcolor="green", opacity=0.3, mode='lines', name="Park", hoverinfo='skip'))
+    
+    # Background Assets
+    fig.add_trace(go.Scatter(x=CITY_ASSETS["nature"]["pond"]["x"], y=CITY_ASSETS["nature"]["pond"]["y"], fill="toself", fillcolor="blue", opacity=0.3, mode='lines', hoverinfo='skip'))
+    fig.add_trace(go.Scatter(x=CITY_ASSETS["nature"]["park"]["x"], y=CITY_ASSETS["nature"]["park"]["y"], fill="toself", fillcolor="green", opacity=0.3, mode='lines', hoverinfo='skip'))
     fig.add_trace(go.Scatter(x=CITY_ASSETS["roads"]["x"], y=CITY_ASSETS["roads"]["y"], mode='lines', line=dict(color='#222', width=45), hoverinfo='skip'))
     
-    # Path Trail (Showing the "Thought" path)
-    if trail_x and trail_y:
-        fig.add_trace(go.Scatter(x=trail_x, y=trail_y, mode='lines', line=dict(color='#00FF41', width=2, dash='dot'), name="Computed Path"))
+    # FIXED LOGIC: Checking length instead of direct array truthiness
+    if trail_x is not None and len(trail_x) > 0:
+        fig.add_trace(go.Scatter(x=trail_x, y=trail_y, mode='lines', line=dict(color='#00FF41', width=2, dash='dot'), name="Path Trace"))
 
-    # Buildings & Entities
+    # Landmarks & Targets
     for b in CITY_ASSETS["buildings"]:
-        fig.add_trace(go.Scatter(x=[b["pos"][0]], y=[b["pos"][1]], mode='text', text=[b["icon"]], textfont=dict(size=35), name=b["name"]))
+        fig.add_trace(go.Scatter(x=[b["pos"][0]], y=[b["pos"][1]], mode='text', text=[b["icon"]], textfont=dict(size=35)))
     for e in CITY_ASSETS["entities"]:
-        fig.add_trace(go.Scatter(x=[e["pos"][0]], y=[e["pos"][1]], mode='text', text=[e["icon"]], textfont=dict(size=25), name=e["name"]))
+        fig.add_trace(go.Scatter(x=[e["pos"][0]], y=[e["pos"][1]], mode='text', text=[e["icon"]], textfont=dict(size=25)))
         
-    # THE DRONE (White X Mark)
-    fig.add_trace(go.Scatter(x=[drone_x], y=[drone_y], mode='text', text=["<b>X</b>"], textfont=dict(size=40, color="white"), name="UAV-HAWK"))
+    # THE DRONE
+    fig.add_trace(go.Scatter(x=[drone_x], y=[drone_y], mode='text', text=["<b>X</b>"], textfont=dict(size=40, color="white")))
 
-    fig.update_layout(template="plotly_dark", xaxis=dict(range=[0, 48], showgrid=False, zeroline=False), yaxis=dict(range=[0, 48], showgrid=False, zeroline=False), height=600, margin=dict(l=0,r=0,t=0,b=0), showlegend=False)
+    fig.update_layout(template="plotly_dark", xaxis=dict(range=[0, 48], showgrid=False), yaxis=dict(range=[0, 48], showgrid=False), height=600, margin=dict(l=0,r=0,t=0,b=0), showlegend=False)
     return fig
 
 # --- 4. MAIN INTERFACE ---
@@ -77,7 +78,7 @@ with col_viz:
 
 with col_logic:
     st.subheader("🧠 Cognitive Reasoning Pipeline")
-    instruction = st.text_input("ENTER COMMAND:", placeholder="e.g. Go to home")
+    instruction = st.text_input("ENTER COMMAND:", placeholder="Go to home")
     
     if st.button("▶ INITIATE HIGH-RES NAVIGATION"):
         target_obj = None
@@ -88,48 +89,40 @@ with col_logic:
         if target_obj:
             st.session_state.history.append(instruction)
             
-            # --- 5.5 DECISION FLOW ---
             with st.status("Tracing Cognitive Logic...", expanded=True) as status:
                 st.write("**Phase 5.3: NLP Parsing**")
-                st.write(f"Instruction Received: `{instruction}`. Extraction Target: `{target_obj['name']}`[cite: 241, 401].")
                 time.sleep(1)
-                
                 st.write("**Phase 5.4: Memory Check**")
-                st.write(f"Querying Landmark Memory... Coordinates `{target_obj['pos']}` retrieved[cite: 213, 253].")
                 time.sleep(1)
-                
                 st.write("**Phase 5.7: Path Computation (x10 Resolution)**")
-                st.write("Executing waypoint-based navigation with semantic road-bias.")
                 
-                # High-Resolution Pathfinding (x10 frames for smooth traversal)
+                # High-Res Animation
                 num_frames = 100 
                 path_x = np.linspace(st.session_state.drone_pos[0], target_obj["pos"][0], num_frames)
                 path_y = np.linspace(st.session_state.drone_pos[1], target_obj["pos"][1], num_frames)
                 
-                # --- TRAVERSAL LOOP ---
                 for i in range(num_frames):
                     curr_x, curr_y = path_x[i], path_y[i]
                     st.session_state.drone_pos = [curr_x, curr_y]
                     
-                    # Update map with current position and trail
+                    # Update map with unique frame key
                     map_placeholder.plotly_chart(
                         render_city_map(curr_x, curr_y, path_x[:i], path_y[:i]), 
                         use_container_width=True, 
-                        key=f"trace_{i}"
+                        key=f"trace_frame_{i}"
                     )
                     
-                    # 5.13 Online Learning Perception
+                    # 5.13 Online Learning
                     for lm in CITY_ASSETS["entities"]:
                         dist = np.sqrt((curr_x - lm["pos"][0])**2 + (curr_y - lm["pos"][1])**2)
                         if dist < 5 and lm not in st.session_state.discovered:
                             st.session_state.discovered.append(lm)
                             st.toast(f"Landmark Synced: {lm['name']}")
-                    
-                    time.sleep(0.01) # High speed for smooth look
+                    time.sleep(0.01)
                 
-                status.update(label="TASK COMPLETE: Goal Reached via Persistent Reasoning", state="complete")
+                status.update(label="TASK COMPLETE: Goal Reached", state="complete")
         else:
-            st.error("Semantic Error: Target not found in Knowledge Base.")
+            st.error("Target not found.")
 
 st.divider()
 
@@ -141,16 +134,14 @@ with m1:
     st.write("#### 💾 Landmark Memory")
     if st.session_state.discovered:
         st.table(pd.DataFrame(st.session_state.discovered)[['name', 'icon']])
-    else: st.write("Memory Cache Empty.")
 
 with m2:
     st.write("#### 📐 Performance Metrics")
-    st.metric("Traversal Resolution", "x10", "+900%")
+    st.metric("Traversal Resolution", "x10")
     st.metric("Path Efficiency", "96.4%", "VLN-Mode")
 
 with m3:
     st.write("#### 📜 Instruction History")
     st.write(st.session_state.history)
 
-# Project Citation & Summary [cite: 541, 542]
-st.info("**Conclusion:** H.A.W.K. addresses traditional UAV limitations by integrating vision-language understanding with adaptive, memory-based reasoning to generalize across multiple unseen domains.")
+st.info("**Research Summary:** H.A.W.K. integrates vision-language navigation with memory-based reasoning to generalize across multi-domain environments[cite: 541, 581].")
