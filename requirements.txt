@@ -1,0 +1,6 @@
+streamlit
+spacy
+ultralytics
+opencv-python-headless
+pandas
+numpy
