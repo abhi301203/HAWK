@@ -1,6 +1,6 @@
-#🚀 H.A.W.K
+# 🚀 H.A.W.K
 
-#Hybrid Adaptive Waypoint Knowledge for Multi-Domain UAV Navigation
+# Hybrid Adaptive Waypoint Knowledge for Multi-Domain UAV Navigation
 
 🔗 GitHub Repository:
 https://github.com/abhi301203/HAWK
