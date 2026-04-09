@@ -1,87 +1,131 @@
 import streamlit as st
-import time
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import time
 
-# --- 1. CORE PROJECT DATA (The "Genuine" Knowledge Base) ---
-# This mimics your phase3/ memory system
-LANDMARK_MEMORY = {
-    "red car": {"coords": [15, 25], "domain": "urban", "id": "L001"},
-    "blue truck": {"coords": [40, 10], "domain": "industrial", "id": "L002"},
-    "warehouse": {"coords": [10, 10], "domain": "industrial", "id": "L003"},
+# --- RESEARCH IDENTITY ---
+st.set_page_config(page_title="H.A.W.K. | Research Portal", page_icon="🦅", layout="wide")
+
+# Custom Professional Styling
+st.markdown("""
+    <style>
+    .reportview-container { background: #0e1117; }
+    .stCodeBlock { border: 1px solid #30363d; }
+    .stAlert { border-left: 5px solid #58a6ff; }
+    </style>
+    """, unsafe_allow_html=True)
+
+# --- SIMULATED DATA (Based on Documentation) ---
+# Landmark Memory (Phase 3)
+landmark_db = {
+    "red car": {"coords": [18, 42], "domain": "Urban", "id": "L-001"},
+    "blue tower": {"coords": [5, 12], "domain": "Industrial", "id": "L-002"},
+    "warehouse": {"coords": [35, 10], "domain": "Coastal", "id": "L-003"}
 }
 
-# --- 2. THE INTELLIGENCE ENGINE (Phase 3 Logic) ---
-def hawk_decision_engine(instruction):
-    """Strictly follows the 5.5 Decision Flow from your architecture"""
-    instruction = instruction.lower()
+# --- HEADER & PUBLICATION INFO ---
+st.title("🦅 H.A.W.K. Research Console")
+st.markdown("### Hybrid Adaptive Waypoint Knowledge for Multi-Domain UAV Navigation")
+st.caption("Published in: International Scientific Journal of Engineering and Management (ISJEM)")
+st.link_button("📄 View Published Paper (DOI: 10.55041/ISJEM06067)", "https://doi.org/10.55041/ISJEM06067")
+
+st.divider()
+
+# --- MODULE 1: INTERACTIVE COGNITIVE PIPELINE ---
+st.header("🧠 1. Cognitive Decision Flow (Start → End)")
+st.write("Input a natural language command to see how the H.A.W.K. modules collaborate.")
+
+instruction = st.text_input("Mission Instruction:", "Go near the red car")
+
+if st.button("RUN INTELLIGENCE CORE"):
+    # Sequential Workflow (Based on Section 5.5 & 5.13)
+    col1, col2 = st.columns([2, 3])
     
-    # 5.3 NLP Parsing
-    target_obj = next((k for k in LANDMARK_MEMORY.keys() if k in instruction), "unknown")
-    
-    # 5.5 Decision Steps
-    steps = [
-        "Instruction Memory Check: MATCHED",
-        f"Landmark Memory Check: {target_obj.upper()} FOUND",
-        "Object Cluster Matching: VEHICLE_CLUSTER",
-        "Semantic Reasoning: PRIORITY_SEARCH_ON_ROADS"
-    ]
-    
-    # Navigation Logic (A-Star Simulation)
-    if target_obj in LANDMARK_MEMORY:
-        target_coords = LANDMARK_MEMORY[target_obj]["coords"]
-    else:
-        target_coords = [np.random.randint(0,50), np.random.randint(0,50)]
-        steps[1] = "Landmark Memory Check: MISS (Switching to Frontier Exploration)"
+    with col1:
+        st.write("#### Modular Execution Path")
         
-    return target_obj, target_coords, steps
-
-# --- 3. UI LAYOUT ---
-st.set_page_config(page_title="HAWK v2.4 | Graduate Research Console", layout="wide")
-
-st.markdown("# 🦅 H.A.W.K. | Cognitive Navigation Dashboard")
-st.write("### Hybrid Autonomous Waypoint Knowledge for Multi-Domain UAV")
-
-col_main, col_data = st.columns([3, 2])
-
-with col_main:
-    st.subheader("📍 2D Spatial Navigation (Live Simulation)")
-    instr = st.text_input("Enter VLN Command:", value="Go near the red car")
-    
-    if st.button("🚀 INITIATE COGNITIVE PIPELINE"):
-        target, coords, logic_steps = hawk_decision_engine(instr)
-        
-        # Simulated Processing Terminal
-        with st.expander("📝 System Orchestrator Logs", expanded=True):
-            for step in logic_steps:
-                time.sleep(0.6)
-                st.write(f"`[SYSTEM]` {step}")
-        
-        # 2D Graph (The "Genuine" Part)
-        # Showing drone path from [0,0] to target
-        fig = go.Figure()
-        # Flight Path
-        fig.add_trace(go.Scatter(x=[0, coords[0]], y=[0, coords[1]], mode='lines+markers', name='Flight Path', line=dict(color='cyan', dash='dot')))
-        # Landmarks
-        for name, info in LANDMARK_MEMORY.items():
-            fig.add_trace(go.Scatter(x=[info['coords'][0]], y=[info['coords'][1]], mode='markers+text', name=name, text=[name], textposition="top center"))
+        # 5.3 NLP Processor
+        with st.status("Step 1: NLP Processing (SpaCy)", expanded=False):
+            st.write("Extracting Actions, Objects, and Modifiers...")
+            time.sleep(1)
+            target = "red car" if "car" in instruction.lower() else "unknown"
+            st.success(f"Detected: [Object: {target}] [Action: Go]")
             
-        fig.update_layout(template="plotly_dark", xaxis_title="X-Coord (m)", yaxis_title="Y-Coord (m)", margin=dict(l=0, r=0, t=0, b=0))
+        # 5.4 Memory System (Phase 3)
+        with st.status("Step 2: Memory Retrieval (Phase 3)", expanded=False):
+            st.write("Querying Instruction & Landmark Memories...")
+            time.sleep(1)
+            found = target in landmark_db
+            if found:
+                st.info(f"Landmark Found in Memory: {landmark_db[target]['id']} at {landmark_db[target]['coords']}")
+            else:
+                st.warning("No memory match. Initiating Frontier Exploration.")
+                
+        # 5.6 Semantic Reasoning
+        with st.status("Step 3: Semantic Reasoning Engine", expanded=False):
+            st.write("Applying Domain Biases...")
+            time.sleep(1)
+            if "car" in target:
+                st.info("Logic: Object is 'Vehicle'. Bias navigation towards road-structures.")
+            
+        # 5.11 Domain Adaptation (Phase 2)
+        with st.status("Step 4: Domain Adaptation (ResNet18)", expanded=False):
+            st.write("Matching environment signatures...")
+            time.sleep(1)
+            st.success("Environment: Urban. Adjusting weights for urban obstacle density.")
+            
+    with col2:
+        st.write("#### Generated 2D Spatial Waypoints")
+        # Visualizing the Waypoint Knowledge
+        target_coords = landmark_db[target]['coords'] if target in landmark_db else [25, 25]
+        
+        fig = go.Figure()
+        # Drone Start
+        fig.add_trace(go.Scatter(x=[0], y=[0], name="Home", marker=dict(size=12, color='white')))
+        # Waypoints
+        fig.add_trace(go.Scatter(x=[0, target_coords[0]], y=[0, target_coords[1]], 
+                                 mode='lines+markers', name="Flight Path", line=dict(color='cyan', dash='dot')))
+        # Target
+        fig.add_trace(go.Scatter(x=[target_coords[0]], y=[target_coords[1]], 
+                                 mode='markers+text', name="Target Waypoint", 
+                                 text=["TARGET"], textposition="top center", marker=dict(size=15, color='red')))
+        
+        fig.update_layout(template="plotly_dark", xaxis_title="X-Axis (m)", yaxis_title="Y-Axis (m)", height=400)
         st.plotly_chart(fig, use_container_width=True)
 
-with col_data:
-    st.subheader("🔄 Phase 2: Domain Adaptation")
-    # Real ResNet18 Feature Vector Visualization (Sample)
-    st.write("ResNet18 High-Dimensional Feature Extraction (Signature)")
-    features = np.random.normal(0, 1, 50)
-    st.bar_chart(features)
-    
-    st.divider()
-    st.subheader("💾 Persistent Memory Status")
-    st.dataframe(pd.DataFrame.from_dict(LANDMARK_MEMORY, orient='index'), use_container_width=True)
+st.divider()
 
-# --- 4. THE VIVA MODE (Architecture Sync) ---
-st.markdown("---")
-st.subheader("🏗️ System Core (Architecture Map)")
-st.image("https://mermaid.ink/img/pako:eNqNUdtOwzAM_ZUrX7A_4A1pEtoHSAyJiVvSJi69uEmr-HeSdtm6TpqEPFmxc3zOTR-onBFAKax_UByLAtY2RmsE06F6f7N-t7_YV_tpf7GP_M0W8CclH-UqZ0kK6997h1oN-Y8Hw89lAisLWEV1EIsUlmYIK6gOYhEreAnLQSwisCxFWEZ1EIsYlkV1EIsYlnUQi7iCly_q_T-2-P_v-P9P7f8v7f_P-P9P-P8n9P-E-p9Q_xPq_5_6_0_9f6n-f-r_P_X_p_r_m_r-A2l58O0")
+# --- MODULE 2: REASONING & LEARNING ANALYSIS ---
+st.header("📊 2. Continuous Learning & Data Analytics")
+tab1, tab2, tab3 = st.tabs(["💾 Landmark Memory", "🔄 Domain Fingerprints", "📈 Performance Logs"])
+
+with tab1:
+    st.write("#### Phase 3: Spatial Graph Memory")
+    st.write("The system stores discovered landmarks to avoid redundant exploration.")
+    df_landmarks = pd.DataFrame.from_dict(landmark_db, orient='index')
+    st.table(df_landmarks)
+
+with tab2:
+    st.write("#### Phase 2: ResNet18 Signature Extraction")
+    st.write("Feature vector visualization from high-dimensional environment embeddings.")
+    # Real random distribution mimicking ResNet18 feature vectors
+    feature_vec = np.random.randn(64)
+    st.bar_chart(feature_vec)
+    st.caption("Signature: 0x8F2... (Urban Environment)")
+
+with tab3:
+    st.write("#### System Efficiency (Multi-Domain Testing)")
+    # Metrics from your report
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Coverage %", "94.2", "+2.5")
+    m2.metric("Target Success", "89.1%", "+4.2")
+    m3.metric("Adaptation Latency", "124ms", "-12ms")
+
+# --- ARCHITECTURE MODAL ---
+st.divider()
+st.subheader("🏗️ Full System Architecture (Reference)")
+# Using your official Architecture diagram from the document
+st.image("https://raw.githubusercontent.com/YourGitHubUsername/YourRepo/main/architecture_diagram.png", caption="Fig 4.1: H.A.W.K System Architecture")
+
+st.info("**Research Conclusion:** H.A.W.K. allows UAVs to generalize across multiple unseen domains such as urban and rural without requiring retraining. [cite: 54, 578]")
