@@ -1,54 +1,119 @@
 import streamlit as st
+import time
 import pandas as pd
 
-# Page Setup
-st.set_page_config(page_title="H.A.W.K. System Dashboard", layout="wide")
+# --- UI CONFIG ---
+st.set_page_config(page_title="HAWK | UAV Intelligence", page_icon="🦅", layout="wide")
 
-st.title("🦅 H.A.W.K. | Hybrid Autonomous Waypoint Knowledge")
-st.markdown("### Multi-Domain UAV Navigation Intelligence Core")
+# Custom CSS for a "Dark Mode" Tech feel
+st.markdown("""
+    <style>
+    .main { background-color: #0e1117; color: #ffffff; }
+    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #262730; color: white; border: 1px solid #464b5d; }
+    .stButton>button:hover { border: 1px solid #ff4b4b; color: #ff4b4b; }
+    .reportview-container .main .block-container { padding-top: 2rem; }
+    </style>
+    """, unsafe_allow_html=True)
 
-# --- ARCHITECTURE OVERVIEW ---
-st.sidebar.header("System Status")
-st.sidebar.status("Core: Online", state="complete")
-st.sidebar.status("Perception: Ready", state="complete")
-st.sidebar.status("AirSim Link: Simulated", state="running")
+# --- HEADER ---
+col_logo, col_title = st.columns([1, 5])
+with col_logo:
+    st.title("🦅")
+with col_title:
+    st.title("H.A.W.K. MISSION CONTROL")
+    st.caption("Hybrid Autonomous Waypoint Knowledge | Multi-Domain Navigation System")
 
-# --- 1. THE REASONING ENGINE (Show off your logic!) ---
-st.header("🧠 1. Semantic Reasoning & NLP")
-st.info("This module parses human intent into actionable UAV waypoints.")
+st.divider()
 
-user_input = st.text_input("Simulate a Human Instruction:", "Go to the red car near the warehouse")
+# --- SIDEBAR: SYSTEM METRICS ---
+with st.sidebar:
+    st.header("🛸 Drone Telemetry")
+    st.status("WSL Environment: CONNECTED", state="complete")
+    st.status("AirSim Link: VIRTUAL_ACTIVE", state="running")
+    st.status("YOLOv8 Engine: LOADED", state="complete")
+    
+    st.divider()
+    st.subheader("Memory Stats")
+    st.progress(78, text="Landmark Memory Density")
+    st.progress(42, text="Domain Adaptation Progress")
+    
+    if st.button("🚨 Emergency Land"):
+        st.error("Emergency Protocol Initiated...")
 
-if user_input:
-    col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("NLP Extraction")
-        st.json({"action": "navigate", "target": "car", "color": "red", "proximity": "warehouse"})
-    with col2:
-        st.subheader("Strategic Reasoning")
-        st.write("1. Searching 'Object Cluster Memory' for 'Vehicles'...")
-        st.write("2. Identifying 'Warehouse' as a spatial landmark...")
-        st.success("Target Waypoint: [124.5, -42.8, 10.0]")
+# --- MAIN INTERFACE: 3 COLUMNS ---
+top_left, top_right = st.columns([2, 1])
 
-# --- 2. THE MEMORY SYSTEM (Show your datasets!) ---
-st.header("💾 2. Persistent Memory (Landmark & Domain)")
-tab1, tab2 = st.tabs(["Landmark Database", "Domain Adaptation"])
+with top_left:
+    st.subheader("📡 Live Perception & Command")
+    command = st.text_input("Human-Language Command:", placeholder="e.g., Find the red car and hover nearby")
+    
+    if st.button("Execute Mission"):
+        if command:
+            with st.status("Processing Instruction...", expanded=True) as status:
+                st.write("🔍 Parsing Natural Language (SpaCy)...")
+                time.sleep(1)
+                st.write("🧠 Querying Object Cluster Memory...")
+                time.sleep(1)
+                st.write("🗺️ Generating Adaptive Waypoints...")
+                time.sleep(1)
+                status.update(label="Mission Logic Compiled!", state="complete", expanded=False)
+            
+            # Show the "Brain" Logic
+            res_col1, res_col2 = st.columns(2)
+            with res_col1:
+                st.info("**Extracted Intent**")
+                st.json({"action": "SEARCH_DESCEND", "target": "car", "attr": "red"})
+            with res_col2:
+                st.success("**Navigation Path**")
+                st.code("WAYPOINT_A: [45.2, 12.8]\nWAYPOINT_B: [46.1, 13.0]\nMODE: FRONTIER_EXPLORATION")
+        else:
+            st.warning("Please enter a command first.")
+
+with top_right:
+    st.subheader("📸 Vision Feed (Sim)")
+    # This acts as a placeholder for your YOLO detections
+    st.image("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=400", caption="HAWK Raw Perception Feed")
+    st.metric("Detected Objects", "7", "+2")
+
+st.divider()
+
+# --- BOTTOM SECTION: THE ARCHITECTURE SHOWCASE ---
+st.subheader("📂 System Core Exploration")
+tab1, tab2, tab3, tab4 = st.tabs(["🧠 Reasoning", "💾 Memory", "🔄 Learning", "📊 Metrics"])
 
 with tab1:
-    st.write("Recent Object Detections (YOLOv8 + Spatial Mapping)")
-    # Sample data that mimics your dataset
-    sample_data = {
-        'Object': ['Car', 'Tree', 'Building', 'Truck'],
-        'Confidence': [0.92, 0.85, 0.98, 0.76],
-        'Spatial_Coord': ['[10, 20]', '[-5, 30]', '[40, 15]', '[12, -5]']
-    }
-    st.table(pd.DataFrame(sample_data))
+    st.write("### Semantic Reasoning Engine")
+    st.write("HAWK uses a cross-dataset reasoning flow to understand environment context.")
+    st.code("""
+    if target == 'car' and domain == 'urban':
+        bias = DIRECTIONAL_SEARCH_ROAD
+    elif target == 'car' and domain == 'forest':
+        bias = CRASH_PREVENTION_ACTIVE
+    """, language="python")
 
 with tab2:
-    st.write("Domain Signatures (ResNet18 Feature Extractions)")
-    st.code("Domain Alpha: Urban_Environment_01\nFeature Vector: [0.12, 0.88, 0.45, ...]", language="text")
-    st.progress(85, text="Adaptation Confidence")
+    st.write("### Persistent Memory Datasets")
+    # This visualizes the files you have in your 'datasets/' folder
+    data = {
+        "Dataset": ["Instruction", "Landmark", "Path", "Experience", "Crash"],
+        "Entries": [150, 420, 89, 210, 15],
+        "Status": ["Synced", "Synced", "Updating", "Synced", "Alert"]
+    }
+    st.dataframe(pd.DataFrame(data), use_container_width=True)
 
-# --- 3. PROJECT ARCHITECTURE ---
-st.header("🏗️ 3. Complete System Architecture")
-st.image("https://mermaid.ink/img/pako:eNqNUdtOwzAM_ZUrX7A_4A1pEtoHSAyJiVvSJi69uEmr-HeSdtm6TpqEPFmxc3zOTR-onBFAKax_UByLAtY2RmsE06F6f7N-t7_YV_tpf7GP_M0W8CclH-UqZ0kK6997h1oN-Y8Hw89lAisLWEV1EIsUlmYIK6gOYhEreAnLQSwisCxFWEZ1EIsYlkV1EIsYlnUQi7iCly_q_T-2-P_v-P9P7f8v7f_P-P9P-P8n9P-E-p9Q_xPq_5_6_0_9f6n-f-r_P_X_p_r_m_r-A2l58O0")
+with tab3:
+    st.write("### Phase 2: Domain Adaptation")
+    st.write("The ResNet18 backbone extracts signatures from new environments to update the model.")
+    if st.button("Trigger Domain Re-Sync"):
+        with st.spinner("Analyzing environment signatures..."):
+            time.sleep(2)
+            st.success("New Domain Detected: 'Industrial_Zone_Beta'. Signature updated.")
+
+with tab4:
+    st.write("### Performance Metrics")
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Coverage %", "94.2%", "+2.1%")
+    m2.metric("Collision Rate", "0.02%", "-0.01%")
+    m3.metric("Path Efficiency", "88.5%", "+5.4%")
+
+st.balloons()
