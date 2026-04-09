@@ -1,18 +1,19 @@
 import plotly.graph_objects as go
 import numpy as np
 
-# Idea 4: Comprehensive City Infrastructure
-CITY_DATA = {
-    "zones": {
-        "residential": {"x": [35, 48, 48, 35], "y": [2, 2, 15, 15], "color": "rgba(0, 255, 255, 0.1)"},
-        "industrial": {"x": [2, 15, 15, 2], "y": [35, 35, 48, 48], "color": "rgba(255, 0, 0, 0.1)"}
-    },
-    "landmarks": [
-        {"name": "BASE_STATION", "pos": [2, 2], "icon": "🛰️", "type": "HQ"},
-        {"name": "HOSPITAL_ALPHA", "pos": [5, 45], "icon": "🏥", "type": "MEDICAL"},
-        {"name": "SCHOOL_BETA", "pos": [35, 45], "icon": "🏫", "type": "EDU"},
-        {"name": "HOME_SEC_8", "pos": [45, 5], "icon": "🏠", "type": "CIVIL"},
-        {"name": "GOVT_W_HOUSE", "pos": [10, 40], "icon": "🏭", "type": "GOV"}
+# Idea 4: Comprehensive Environment Dataset
+ENVIRONMENT_CONFIG = {
+    "zones": [
+        {"name": "Industrial Sector", "x": [0, 15, 15, 0], "y": [35, 35, 50, 50], "color": "rgba(255, 0, 0, 0.05)"},
+        {"name": "Residential Sector", "x": [35, 50, 50, 35], "y": [0, 0, 15, 15], "color": "rgba(0, 255, 255, 0.05)"},
+        {"name": "The Pond", "x": [30, 40, 40, 30], "y": [30, 30, 40, 40], "color": "rgba(0, 100, 255, 0.2)"}
+    ],
+    "nodes": [
+        {"name": "BASE_STATION", "pos": [2, 2], "icon": "🛰️"},
+        {"name": "HOSPITAL", "pos": [5, 45], "icon": "🏥"},
+        {"name": "SCHOOL", "pos": [35, 45], "icon": "🏫"},
+        {"name": "HOME", "pos": [45, 5], "icon": "🏠"},
+        {"name": "WAREHOUSE", "pos": [12, 38], "icon": "🏭"}
     ],
     "roads": [
         {"x": [0, 50], "y": [25, 25]}, {"x": [25, 25], "y": [0, 50]},
@@ -20,45 +21,38 @@ CITY_DATA = {
     ]
 }
 
-def build_4d_environment(uav_pos, path_data, ghost_data, hazards, perception_range=8):
+def render_sovereign_map(uav_pos, active_path, ghost_path, obstacles):
+    """Idea 7 & 15: Interactive 4D Knowledge Visualization."""
     fig = go.Figure()
     
-    # Render City Zones
-    for zone in CITY_DATA["zones"].values():
-        fig.add_trace(go.Scatter(x=zone["x"], y=zone["y"], fill="toself", fillcolor=zone["color"], line=dict(width=0), hoverinfo='skip'))
+    # 1. Zone Rendering
+    for zone in ENVIRONMENT_CONFIG["zones"]:
+        fig.add_trace(go.Scatter(x=zone["x"], y=zone["y"], fill="toself", fillcolor=zone["color"], line=dict(width=0), name=zone["name"]))
 
-    # Render Roads (Semantic Paths)
-    for road in CITY_DATA["roads"]:
-        fig.add_trace(go.Scatter(x=road["x"], y=road["y"], mode='lines', line=dict(color='#111', width=40), hoverinfo='skip'))
+    # 2. Infrastructure (Road Bias)
+    for road in ENVIRONMENT_CONFIG["roads"]:
+        fig.add_trace(go.Scatter(x=road["x"], y=road["y"], mode='lines', line=dict(color='#111', width=50), hoverinfo='skip'))
 
-    # Idea 15: Neural Ghost Path (Non-Adaptive Baseline)
-    if ghost_data['x']:
-        fig.add_trace(go.Scatter(x=ghost_data['x'], y=ghost_data['y'], mode='lines', 
-                                 line=dict(color='rgba(255, 75, 75, 0.4)', width=1, dash='dot'), name="Standard Baseline"))
+    # 3. Idea 15: Ghost Path Logic (Comparison)
+    if ghost_path is not None and len(ghost_path['x']) > 0:
+        fig.add_trace(go.Scatter(x=ghost_path['x'], y=ghost_path['y'], mode='lines', 
+                                 line=dict(color='rgba(255, 75, 75, 0.3)', width=1, dash='dot'), name="Baseline UAV"))
 
-    # HAWK Active Trajectory
-    if path_data['x']:
-        fig.add_trace(go.Scatter(x=path_data['x'], y=path_data['y'], mode='lines', 
-                                 line=dict(color='#00FF41', width=3), name="HAWK Active Trail"))
+    # 4. HAWK Path Logic
+    if active_path is not None and len(active_path['x']) > 0:
+        fig.add_trace(go.Scatter(x=active_path['x'], y=active_path['y'], mode='lines', 
+                                 line=dict(color='#00FF41', width=3), name="HAWK AI"))
 
-    # Idea 7: 4D Spatial Knowledge (Perception Bubble)
-    fig.add_shape(type="circle", xref="x", yref="y", x0=uav_pos[0]-perception_range, y0=uav_pos[1]-perception_range,
-                  x1=uav_pos[0]+perception_range, y1=uav_pos[1]+perception_range, line_color="#00FF41", opacity=0.2)
+    # 5. Node Injection
+    for node in ENVIRONMENT_CONFIG["nodes"]:
+        fig.add_trace(go.Scatter(x=[node["pos"][0]], y=[node["pos"][1]], mode='text', text=[node["icon"]],
+                                 textfont=dict(size=35), name=node["name"], hovertemplate=f"{node['name']}<extra></extra>"))
 
-    # Landmarks
-    for lm in CITY_DATA["landmarks"]:
-        fig.add_trace(go.Scatter(x=[lm["pos"][0]], y=[lm["pos"][1]], mode='text', text=[lm["icon"]],
-                                 textfont=dict(size=30), name=lm["name"], hovertemplate=f"{lm['name']}<extra></extra>"))
-
-    # Idea 10: Hazard Injection
-    for h in hazards:
-        fig.add_trace(go.Scatter(x=[h['x']], y=[h['y']], mode='text', text=["🚧"], textfont=dict(size=35)))
-
-    # UAV Agent
+    # 6. UAV 'X' Mark
     fig.add_trace(go.Scatter(x=[uav_pos[0]], y=[uav_pos[1]], mode='markers+text', text=["<b>X</b>"],
-                             marker=dict(size=20, color="white", symbol="x-thin-open"), textfont=dict(color="white", size=18)))
+                             marker=dict(size=25, color="white", symbol="x-thin-open"), textfont=dict(color="white", size=20)))
 
     fig.update_layout(template="plotly_dark", xaxis=dict(range=[0, 50], showgrid=False, zeroline=False),
-                      yaxis=dict(range=[0, 50], showgrid=False, zeroline=False), height=750, 
-                      margin=dict(l=0,r=0,t=0,b=0), showlegend=False, hovermode="closest")
+                      yaxis=dict(range=[0, 50], showgrid=False, zeroline=False), height=800, 
+                      margin=dict(l=0,r=0,t=0,b=0), showlegend=False)
     return fig
