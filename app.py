@@ -84,7 +84,7 @@ def dist(a,b):
     return np.linalg.norm(np.array(a)-np.array(b))
 
 # -----------------------------
-# SAFE NAVIGATION
+# SAFE NAVIGATION (NO COLLISION)
 # -----------------------------
 def compute_next(pos, target):
     pos = np.array(pos)
@@ -115,7 +115,7 @@ def compute_next(pos, target):
     return tuple(new_pos)
 
 # -----------------------------
-# LANDMARK MEMORY UPDATE
+# LANDMARK MEMORY
 # -----------------------------
 def update_landmarks(pos):
     for obj in st.session_state.city:
@@ -146,25 +146,30 @@ def update():
     update_landmarks(new)
 
 # -----------------------------
-# MAP
+# MAP (HOVER BASED)
 # -----------------------------
 def render():
     fig = go.Figure()
 
     # Roads
     for i in range(0,100,10):
-        fig.add_shape(type="line", x0=i,y0=0,x1=i,y1=100,line=dict(color="gray",width=1))
-        fig.add_shape(type="line", x0=0,y0=i,x1=100,y1=i,line=dict(color="gray",width=1))
+        fig.add_shape(type="line", x0=i,y0=0,x1=i,y1=100,
+                      line=dict(color="gray",width=1))
+        fig.add_shape(type="line", x0=0,y0=i,x1=100,y1=i,
+                      line=dict(color="gray",width=1))
 
-    # City objects with labels
+    # City objects (hover)
     for obj in st.session_state.city:
-        label = f"{icon(obj['type'])}<br>{obj['type']}<br>({obj['x']},{obj['y']})"
-        fig.add_annotation(
-            x=obj["x"], y=obj["y"],
-            text=label,
-            showarrow=False,
-            font=dict(size=12)
-        )
+        fig.add_trace(go.Scatter(
+            x=[obj["x"]],
+            y=[obj["y"]],
+            mode="text",
+            text=[icon(obj["type"])],
+            textfont=dict(size=18),
+            hovertext=f"{obj['type'].upper()}<br>({obj['x']}, {obj['y']})",
+            hoverinfo="text",
+            showlegend=False
+        ))
 
     # Hazards
     for h in st.session_state.hazards:
@@ -181,29 +186,41 @@ def render():
         fig.add_trace(go.Scatter(
             x=x,y=y,
             mode="lines+markers",
-            name="Trajectory"
+            name="Trajectory",
+            hoverinfo="skip"
         ))
 
-    # Drone (LABELED)
-    fig.add_annotation(
-        x=st.session_state.drone["x"],
-        y=st.session_state.drone["y"],
-        text="🚁<br>H.A.W.K Drone",
-        showarrow=False,
-        font=dict(size=14)
-    )
+    # Drone
+    fig.add_trace(go.Scatter(
+        x=[st.session_state.drone["x"]],
+        y=[st.session_state.drone["y"]],
+        mode="text",
+        text=["🚁"],
+        textfont=dict(size=20),
+        hovertext="H.A.W.K Drone",
+        hoverinfo="text",
+        showlegend=False
+    ))
 
     # Target
     if st.session_state.target:
-        fig.add_annotation(
-            x=st.session_state.target[0],
-            y=st.session_state.target[1],
-            text="🎯 Target",
-            showarrow=False,
-            font=dict(size=14)
-        )
+        fig.add_trace(go.Scatter(
+            x=[st.session_state.target[0]],
+            y=[st.session_state.target[1]],
+            mode="text",
+            text=["🎯"],
+            textfont=dict(size=20),
+            hovertext="Target Location",
+            hoverinfo="text",
+            showlegend=False
+        ))
 
-    fig.update_layout(template="plotly_dark",height=600)
+    fig.update_layout(
+        template="plotly_dark",
+        height=600,
+        margin=dict(l=0,r=0,t=20,b=0)
+    )
+
     return fig
 
 # -----------------------------
