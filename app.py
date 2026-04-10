@@ -3,10 +3,9 @@ import plotly.graph_objects as go
 import numpy as np
 import time
 import random
-from streamlit_plotly_events import plotly_events
 
 # -----------------------------
-# INITIAL STATE
+# INIT
 # -----------------------------
 if "init" not in st.session_state:
     st.session_state.init = True
@@ -23,7 +22,7 @@ if "init" not in st.session_state:
     }
 
 # -----------------------------
-# LOGGER
+# LOGGING
 # -----------------------------
 def log(msg):
     t = time.strftime("%H:%M:%S")
@@ -36,7 +35,7 @@ def dist(a, b):
     return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
 
 # -----------------------------
-# SMART STEP (REAL-TIME AVOIDANCE)
+# REAL-TIME AVOIDANCE
 # -----------------------------
 def compute_next_step(pos, target, hazards):
     x, y = pos
@@ -50,51 +49,44 @@ def compute_next_step(pos, target, hazards):
     next_x = x + step_x
     next_y = y + step_y
 
-    avoided = False
-
     for h in hazards:
         d = dist((next_x, next_y), (h["x"], h["y"]))
 
-        # Near collision
         if d < 6:
             st.session_state.metrics["near"] += 1
             log("⚠️ Hazard proximity detected")
 
-        # Avoidance trigger
         if d < 4:
-            avoided = True
             st.session_state.metrics["avoided"] += 1
-            log("🚧 Avoidance maneuver activated")
+            log("🚧 Avoidance maneuver")
 
             next_x += random.choice([-2, 2])
             next_y += random.choice([-2, 2])
 
-    return (next_x, next_y), avoided
+    return (next_x, next_y)
 
 # -----------------------------
-# UPDATE DRONE (REAL-TIME)
+# UPDATE DRONE
 # -----------------------------
 def update_drone():
     pos = (st.session_state.drone["x"], st.session_state.drone["y"])
     target = st.session_state.target
 
-    new_pos, _ = compute_next_step(pos, target, st.session_state.hazards)
+    new_pos = compute_next_step(pos, target, st.session_state.hazards)
 
     st.session_state.drone["x"], st.session_state.drone["y"] = new_pos
     st.session_state.path.append(new_pos)
 
 # -----------------------------
-# DIGITAL TWIN MAP
+# MAP
 # -----------------------------
 def render_map():
     fig = go.Figure()
 
-    # Path
     if len(st.session_state.path) > 1:
         x, y = zip(*st.session_state.path)
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name="Path"))
 
-    # Drone
     fig.add_trace(go.Scatter(
         x=[st.session_state.drone["x"]],
         y=[st.session_state.drone["y"]],
@@ -103,7 +95,6 @@ def render_map():
         name="Drone"
     ))
 
-    # Hazards
     if st.session_state.hazards:
         hx = [h["x"] for h in st.session_state.hazards]
         hy = [h["y"] for h in st.session_state.hazards]
@@ -117,8 +108,7 @@ def render_map():
 
     fig.update_layout(
         template="plotly_dark",
-        height=650,
-        clickmode="event+select"
+        height=650
     )
 
     return fig
@@ -131,22 +121,12 @@ st.set_page_config(layout="wide")
 left, right = st.columns([3, 1])
 
 # -----------------------------
-# MAP + INJECTION
+# MAP
 # -----------------------------
 with left:
     st.subheader("🌍 Digital Twin")
 
-    fig = render_map()
-    selected = plotly_events(fig)
-
-    if selected:
-        px = int(selected[0]["x"])
-        py = int(selected[0]["y"])
-
-        st.session_state.hazards.append({"x": px, "y": py})
-        st.session_state.metrics["hazards"] += 1
-
-        log(f"🚨 Hazard injected at ({px}, {py})")
+    st.plotly_chart(render_map(), use_container_width=True)
 
 # -----------------------------
 # CONTROL PANEL
@@ -161,17 +141,26 @@ with right:
         st.session_state.clear()
         st.rerun()
 
-    st.subheader("📊 Metrics")
+    st.subheader("🚨 Hazard Injection")
 
+    hx = st.slider("X", 0, 100, 50)
+    hy = st.slider("Y", 0, 100, 50)
+
+    if st.button("Inject Hazard"):
+        st.session_state.hazards.append({"x": hx, "y": hy})
+        st.session_state.metrics["hazards"] += 1
+        log(f"🚨 Hazard injected at ({hx}, {hy})")
+
+    st.subheader("📊 Metrics")
     st.metric("Total Hazards", st.session_state.metrics["hazards"])
     st.metric("Avoided", st.session_state.metrics["avoided"])
-    st.metric("Near Collisions", st.session_state.metrics["near"])
+    st.metric("Near", st.session_state.metrics["near"])
 
     st.subheader("📡 Thought Trace")
-    st.text_area("", "\n".join(st.session_state.logs), height=350)
+    st.text_area("", "\n".join(st.session_state.logs), height=300)
 
 # -----------------------------
-# MAIN LOOP
+# LOOP
 # -----------------------------
 update_drone()
 time.sleep(0.1)
