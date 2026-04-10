@@ -30,7 +30,7 @@ def log(msg):
     st.session_state.logs.insert(0, f"[{t}] {msg}")
 
 # -----------------------------
-# DISTANCE FUNCTION
+# DISTANCE
 # -----------------------------
 def dist(a, b):
     return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
@@ -53,12 +53,10 @@ def compute_next_step(pos, target, hazards):
     for h in hazards:
         d = dist((next_x, next_y), (h["x"], h["y"]))
 
-        # Near collision
         if d < 6:
             st.session_state.metrics["near"] += 1
             log("⚠️ Hazard proximity detected")
 
-        # Avoidance trigger
         if d < 4:
             st.session_state.metrics["avoided"] += 1
             log("🚧 Avoidance maneuver triggered")
@@ -69,7 +67,7 @@ def compute_next_step(pos, target, hazards):
     return (next_x, next_y)
 
 # -----------------------------
-# UPDATE DRONE POSITION
+# UPDATE DRONE
 # -----------------------------
 def update_drone():
     pos = (st.session_state.drone["x"], st.session_state.drone["y"])
@@ -94,6 +92,15 @@ def render_map():
             mode='lines',
             name="AI Path"
         ))
+
+    # Target
+    fig.add_trace(go.Scatter(
+        x=[st.session_state.target[0]],
+        y=[st.session_state.target[1]],
+        mode='markers',
+        marker=dict(size=12, symbol="star"),
+        name="Target"
+    ))
 
     # Drone
     fig.add_trace(go.Scatter(
@@ -125,18 +132,17 @@ def render_map():
     return fig
 
 # -----------------------------
-# UI CONFIG
+# UI
 # -----------------------------
 st.set_page_config(layout="wide")
 
 left, right = st.columns([3, 1])
 
 # -----------------------------
-# LEFT: DIGITAL TWIN
+# LEFT: MAP
 # -----------------------------
 with left:
     st.subheader("🌍 Digital Twin Environment")
-
     st.plotly_chart(render_map(), use_container_width=True)
 
 # -----------------------------
@@ -177,14 +183,20 @@ with right:
 
     st.subheader("📡 Thought Trace")
 
-    st.text_area(
-        "",
-        "\n".join(st.session_state.logs),
-        height=300
-    )
+    st.text_area("", "\n".join(st.session_state.logs), height=300)
 
 # -----------------------------
-# SAFE UPDATE LOOP
+# SMOOTH MOVEMENT LOOP (UPDATED)
 # -----------------------------
 if st.session_state.running:
-    update_drone()
+    current_pos = (st.session_state.drone["x"], st.session_state.drone["y"])
+
+    if dist(current_pos, st.session_state.target) < 2:
+        st.session_state.running = False
+        log("✅ Target Reached!")
+        st.balloons()
+        st.rerun()
+    else:
+        update_drone()
+        time.sleep(0.08)  # smoother + safer speed
+        st.rerun()
