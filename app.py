@@ -1,83 +1,194 @@
 import streamlit as st
-import pandas as pd
+import plotly.graph_objects as go
 import numpy as np
 import time
-from interface_style import apply_custom_style
-from world_engine import build_mission_map, ENV_DATA
-from ai_logic import HAWK_Intelligence
+import random
 
-# --- 1. INITIALIZATION ---
-apply_custom_style()
+# -----------------------------
+# SYSTEM STATE INITIALIZATION
+# -----------------------------
+if "initialized" not in st.session_state:
+    st.session_state.initialized = True
+    st.session_state.drone = {"x": 10, "y": 10}
+    st.session_state.path = [(10, 10)]
+    st.session_state.ghost_path = [(10, 10)]
+    st.session_state.obstacles = []
+    st.session_state.logs = []
+    st.session_state.target = (80, 80)
 
-# Fix for AttributeError: Ensure engine is persistent
-if 'engine' not in st.session_state:
-    st.session_state.engine = HAWK_Intelligence()
-if 'pos' not in st.session_state:
-    st.session_state.pos = [2, 2]
-if 'local_memory' not in st.session_state:
-    st.session_state.local_memory = []
+# -----------------------------
+# LOGGER (THOUGHT TRACE)
+# -----------------------------
+def log(msg):
+    timestamp = time.strftime("%H:%M:%S")
+    st.session_state.logs.insert(0, f"[{timestamp}] {msg}")
 
-# --- 2. HEADER HUD ---
-st.markdown("## 🦅 H.A.W.K. MISSION CONTROL v3.0")
-st.caption("Strategic Intelligence Hub | Patent-Pending Architecture")
+# -----------------------------
+# LATENCY SIMULATOR
+# -----------------------------
+def simulate_latency(stage):
+    delay = random.uniform(0.2, 0.8)
+    log(f"{stage}...")
+    time.sleep(delay)
+    log(f"{stage} completed in {round(delay,2)}s")
 
-# --- 3. DASHBOARD LAYOUT ---
-col_map, col_intel = st.columns([2, 1])
+# -----------------------------
+# DISTANCE FUNCTION
+# -----------------------------
+def distance(a, b):
+    return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
 
-with col_map:
-    # Idea 10: Sidebar controls moved to main for mobile visibility
-    hazard_toggle = st.toggle("🚧 Idea 10: Stress-Tester (Obstacle Injection)")
-    
-    map_box = st.empty()
-    map_box.plotly_chart(build_mission_map(st.session_state.pos, [], [], [], [], hazard_toggle), use_container_width=True)
-    
-    # Idea 17: Multi-Spectral HUD (Compact Row)
-    st.write("📡 Idea 17: Multi-Spectral Vision Filters")
-    v1, v2, v3 = st.columns(3)
-    v1.image(st.session_state.engine.get_vision_telemetry(), caption="DEPTH", use_container_width=True)
-    v2.image(st.session_state.engine.get_vision_telemetry(), caption="IR", use_container_width=True)
-    v3.image(st.session_state.engine.get_vision_telemetry(), caption="SEMANTIC", use_container_width=True)
+# -----------------------------
+# PATH PLANNER (INTELLIGENT)
+# -----------------------------
+def plan_path(start, target, obstacles):
+    simulate_latency("Neural Path Planning")
 
-with col_intel:
-    st.subheader("🧠 Intelligence Hub")
-    
-    # Idea 6: Thought-Trace
-    instruction = st.text_input("INPUT MISSION COMMAND:", "Go to University")
-    
-    if st.button("▶ LAUNCH MISSION ENGINE"):
-        # Idea 2: Latency
-        with st.status("Engine Reasoning...", expanded=True) as status:
-            st.markdown("<div class='terminal-text'>[NLP] Extraction: SUCCESS<br>[MEM] Querying Graph...</div>", unsafe_allow_html=True)
-            time.sleep(1)
-            
-            # Find Target
-            target = next((l for l in ENV_DATA["landmarks"] if l["name"].lower().startswith(instruction.lower()[:3])), None)
-            
-            if target:
-                px, py, gx, gy = st.session_state.engine.generate_path(st.session_state.pos, target["pos"])
-                
-                # Idea 16: Smooth Traversal Loop
-                for i in range(len(px)):
-                    st.session_state.pos = [px[i], py[i]]
-                    
-                    # Idea 5 & 13: Online Sync
-                    for lm in ENV_DATA["landmarks"]:
-                        dist = np.sqrt((px[i]-lm["pos"][0])**2 + (py[i]-lm["pos"][1])**2)
-                        if dist < 6 and lm["name"] not in [m["landmark"] for m in st.session_state.local_memory]:
-                            sync_entry = st.session_state.engine.sync_global(lm["name"])
-                            st.session_state.local_memory.append(sync_entry)
+    path = []
+    x, y = start
 
-                    # Update Map
-                    map_box.plotly_chart(build_mission_map([px[i], py[i]], px[:i], py[:i], gx[:i], gy[:i], hazard_toggle), use_container_width=True, key=f"f_{i}")
-                    time.sleep(0.01)
-                
-                status.update(label="MISSION SUCCESS", state="complete")
+    for _ in range(200):
+        dx = target[0] - x
+        dy = target[1] - y
 
-# --- 4. DATA & ANALYTICS ---
-st.divider()
-st.subheader("📂 Idea 9: Sovereign Knowledge Ledger")
-st.table(pd.DataFrame(st.session_state.local_memory) if st.session_state.local_memory else pd.DataFrame(columns=["id", "landmark", "timestamp"]))
+        step_x = np.sign(dx)
+        step_y = np.sign(dy)
 
-# Idea 8: ResNet DNA DNA HUD
-st.write("🧬 Neural Signature DNA (ResNet18)")
-st.bar_chart(st.session_state.engine.resnet_signature[:64], height=150)
+        new_x = x + step_x
+        new_y = y + step_y
+
+        # Obstacle avoidance
+        for obs in obstacles:
+            if distance((new_x, new_y), (obs["x"], obs["y"])) < 5:
+                log("⚠️ Obstacle detected → Adjusting trajectory")
+                new_x += random.choice([-2, 2])
+                new_y += random.choice([-2, 2])
+
+        x, y = new_x, new_y
+        path.append((x, y))
+
+        if distance((x, y), target) < 2:
+            break
+
+    return path
+
+# -----------------------------
+# DRONE MOVEMENT ENGINE
+# -----------------------------
+def update_drone():
+    if len(st.session_state.path) > 1:
+        next_pos = st.session_state.path[1]
+        st.session_state.drone["x"], st.session_state.drone["y"] = next_pos
+        st.session_state.path.pop(0)
+
+# -----------------------------
+# DIGITAL TWIN RENDER
+# -----------------------------
+def render_map():
+    fig = go.Figure()
+
+    # AI Path
+    if len(st.session_state.path) > 1:
+        x, y = zip(*st.session_state.path)
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name="AI Path"))
+
+    # Ghost Path (baseline)
+    gx = [p[0] for p in st.session_state.ghost_path]
+    gy = [p[1] for p in st.session_state.ghost_path]
+    fig.add_trace(go.Scatter(
+        x=gx, y=gy,
+        mode='lines',
+        name="Baseline",
+        line=dict(dash='dash')
+    ))
+
+    # Drone
+    fig.add_trace(go.Scatter(
+        x=[st.session_state.drone["x"]],
+        y=[st.session_state.drone["y"]],
+        mode='markers',
+        marker=dict(size=14),
+        name="Drone"
+    ))
+
+    # Obstacles
+    if st.session_state.obstacles:
+        ox = [o["x"] for o in st.session_state.obstacles]
+        oy = [o["y"] for o in st.session_state.obstacles]
+
+        fig.add_trace(go.Scatter(
+            x=ox, y=oy,
+            mode='markers',
+            marker=dict(size=10, symbol='x'),
+            name="Obstacles"
+        ))
+
+    fig.update_layout(
+        template="plotly_dark",
+        height=600,
+        clickmode='event+select'
+    )
+
+    return fig
+
+# -----------------------------
+# UI LAYOUT
+# -----------------------------
+st.set_page_config(layout="wide")
+
+col1, col2 = st.columns([3, 1])
+
+# -----------------------------
+# LEFT: DIGITAL TWIN
+# -----------------------------
+with col1:
+    st.subheader("🌍 Digital Twin Environment")
+
+    fig = render_map()
+    selected = st.plotly_chart(fig, use_container_width=True)
+
+    # CLICK → INJECT OBSTACLE
+    if selected and "points" in selected:
+        point = selected["points"][0]
+        x, y = int(point["x"]), int(point["y"])
+
+        st.session_state.obstacles.append({"x": x, "y": y})
+        log(f"🚨 Hazard injected at ({x}, {y})")
+
+        # Trigger replanning
+        st.session_state.path = plan_path(
+            (st.session_state.drone["x"], st.session_state.drone["y"]),
+            st.session_state.target,
+            st.session_state.obstacles
+        )
+
+# -----------------------------
+# RIGHT: CONTROL PANEL
+# -----------------------------
+with col2:
+    st.subheader("🧠 Command HUD")
+
+    if st.button("Start Mission"):
+        log("Mission Started")
+        st.session_state.path = plan_path(
+            (st.session_state.drone["x"], st.session_state.drone["y"]),
+            st.session_state.target,
+            st.session_state.obstacles
+        )
+
+    if st.button("Reset"):
+        st.session_state.drone = {"x": 10, "y": 10}
+        st.session_state.path = [(10, 10)]
+        st.session_state.obstacles = []
+        st.session_state.logs = []
+        log("System Reset")
+
+    st.subheader("📡 Thought Trace")
+    st.text_area("", "\n".join(st.session_state.logs), height=400)
+
+# -----------------------------
+# MAIN LOOP SIMULATION
+# -----------------------------
+update_drone()
+time.sleep(0.1)
+st.rerun()
