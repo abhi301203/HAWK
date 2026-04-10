@@ -9,7 +9,7 @@ import random
 # -----------------------------
 if "init" not in st.session_state:
     st.session_state.init = True
-    st.session_state.drone = {"x": 10, "y": 10}
+    st.session_state.drone = {"x": 10, "y": 10} 
     st.session_state.target = (90, 90)
     st.session_state.path = [(10, 10)]
     st.session_state.hazards = []
