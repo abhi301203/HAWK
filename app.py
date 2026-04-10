@@ -5,7 +5,7 @@ import random
 import time
 
 # -----------------------------
-# INIT STATE
+# INIT
 # -----------------------------
 if "init" not in st.session_state:
     st.session_state.init = True
@@ -16,215 +16,212 @@ if "init" not in st.session_state:
     st.session_state.running = False
     st.session_state.target = None
 
-    # Semantic city map
-    st.session_state.city = [
-        {"x": 80, "y": 80, "type": "hospital"},
-        {"x": 20, "y": 70, "type": "school"},
-        {"x": 60, "y": 30, "type": "building"},
-        {"x": 40, "y": 50, "type": "garden"},
-        {"x": 70, "y": 20, "type": "car"},
-    ]
-
     st.session_state.metrics = {
         "hazards": 0,
         "avoided": 0,
         "near": 0
     }
 
+    # City objects
+    st.session_state.city = []
+
+    types = [
+        "home","hospital","school","church","hotel",
+        "tree","garden","pool","car","truck","human","dog"
+    ]
+
+    for _ in range(40):
+        st.session_state.city.append({
+            "x": random.randint(5, 95),
+            "y": random.randint(5, 95),
+            "type": random.choice(types)
+        })
+
 # -----------------------------
 # ICONS
 # -----------------------------
-def get_icon(t):
-    icons = {
-        "hospital": "🏥",
-        "school": "🏫",
-        "building": "🏠",
-        "garden": "🌿",
-        "car": "🚗"
-    }
-    return icons.get(t, "❓")
+def icon(t):
+    return {
+        "home":"🏠","hospital":"🏥","school":"🏫","church":"⛪","hotel":"🏨",
+        "tree":"🌳","garden":"🌿","pool":"🏊",
+        "car":"🚗","truck":"🚛",
+        "human":"🧍","dog":"🐕"
+    }.get(t,"❓")
 
 # -----------------------------
 # LOGGER
 # -----------------------------
 def log(msg):
-    t = time.strftime("%H:%M:%S")
-    st.session_state.logs.insert(0, f"[{t}] {msg}")
+    st.session_state.logs.insert(0, msg)
 
 # -----------------------------
-# NLP PARSER (SIMULATED)
+# NLP PARSER
 # -----------------------------
-def parse_command(cmd):
-    log("🧠 NLP Processing Started")
-
+def parse(cmd):
     tokens = cmd.lower().split()
     log(f"Tokens: {tokens}")
 
-    intent = "navigate" if "go" in tokens else "unknown"
-    log(f"Intent: {intent}")
-
-    target = None
-    for word in tokens:
+    for t in tokens:
         for obj in st.session_state.city:
-            if word == obj["type"]:
-                target = obj
-                log(f"Target identified: {word}")
+            if t == obj["type"]:
+                log(f"Target: {t}")
+                return obj
 
-    return intent, target
+    return None
 
 # -----------------------------
 # DISTANCE
 # -----------------------------
-def dist(a, b):
-    return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+def dist(a,b):
+    return np.linalg.norm(np.array(a)-np.array(b))
 
 # -----------------------------
-# MOVEMENT
+# SAFE NAVIGATION (FORCE FIELD)
 # -----------------------------
-def compute_next_step(pos, target, hazards):
-    x, y = pos
+def compute_next(pos, target):
+    pos = np.array(pos)
+    target = np.array(target)
 
-    dx = target[0] - x
-    dy = target[1] - y
+    # attraction
+    direction = target - pos
+    direction = direction / (np.linalg.norm(direction)+1e-6)
 
-    next_x = x + np.sign(dx)
-    next_y = y + np.sign(dy)
+    # repulsion
+    for h in st.session_state.hazards:
+        hpos = np.array([h["x"], h["y"]])
+        d = dist(pos, hpos)
 
-    for h in hazards:
-        d = dist((next_x, next_y), (h["x"], h["y"]))
+        if d < 10:
+            repulse = pos - hpos
+            repulse = repulse / (d+1e-6)
+            direction += repulse * (10/d)
 
-        if d < 6:
             st.session_state.metrics["near"] += 1
             log("⚠️ Hazard nearby")
 
-        if d < 4:
+        if d < 5:
             st.session_state.metrics["avoided"] += 1
-            log("🚧 Avoidance triggered")
+            log("🚧 Avoidance activated")
 
-            next_x += random.choice([-2, 2])
-            next_y += random.choice([-2, 2])
+    direction = direction / (np.linalg.norm(direction)+1e-6)
+    new_pos = pos + direction * 1.5
 
-    return (next_x, next_y)
+    return tuple(new_pos)
 
-def update_drone():
+# -----------------------------
+# UPDATE DRONE
+# -----------------------------
+def update():
     pos = (st.session_state.drone["x"], st.session_state.drone["y"])
     target = st.session_state.target
 
-    new_pos = compute_next_step(pos, target, st.session_state.hazards)
+    new = compute_next(pos, target)
 
-    st.session_state.drone["x"], st.session_state.drone["y"] = new_pos
-    st.session_state.path.append(new_pos)
+    st.session_state.drone["x"], st.session_state.drone["y"] = new
+    st.session_state.path.append(new)
 
 # -----------------------------
 # MAP
 # -----------------------------
-def render_map():
+def render():
     fig = go.Figure()
 
+    # Roads grid
+    for i in range(0,100,10):
+        fig.add_shape(type="line", x0=i,y0=0,x1=i,y1=100,line=dict(color="gray",width=1))
+        fig.add_shape(type="line", x0=0,y0=i,x1=100,y1=i,line=dict(color="gray",width=1))
+
+    # City objects
+    for obj in st.session_state.city:
+        fig.add_annotation(
+            x=obj["x"], y=obj["y"],
+            text=icon(obj["type"]),
+            showarrow=False,
+            font=dict(size=18)
+        )
+
+    # Hazards
+    for h in st.session_state.hazards:
+        fig.add_shape(
+            type="circle",
+            x0=h["x"]-3,y0=h["y"]-3,
+            x1=h["x"]+3,y1=h["y"]+3,
+            line_color="red"
+        )
+
     # Path
-    if len(st.session_state.path) > 1:
-        x, y = zip(*st.session_state.path)
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name="Path"))
+    if len(st.session_state.path)>1:
+        x,y=zip(*st.session_state.path)
+        fig.add_trace(go.Scatter(x=x,y=y,mode="lines",name="Path"))
 
     # Drone
     fig.add_trace(go.Scatter(
         x=[st.session_state.drone["x"]],
         y=[st.session_state.drone["y"]],
-        mode='markers',
+        mode="markers",
         marker=dict(size=14),
         name="Drone"
     ))
 
-    # City objects
-    for obj in st.session_state.city:
-        fig.add_annotation(
-            x=obj["x"],
-            y=obj["y"],
-            text=get_icon(obj["type"]),
-            showarrow=False,
-            font=dict(size=20)
-        )
-
-    # Hazards
-    if st.session_state.hazards:
-        hx = [h["x"] for h in st.session_state.hazards]
-        hy = [h["y"] for h in st.session_state.hazards]
-
-        fig.add_trace(go.Scatter(
-            x=hx, y=hy,
-            mode='markers',
-            marker=dict(size=12, symbol="x"),
-            name="Hazards"
-        ))
-
-    fig.update_layout(template="plotly_dark", height=600)
+    fig.update_layout(template="plotly_dark",height=600)
     return fig
 
 # -----------------------------
 # UI
 # -----------------------------
 st.set_page_config(layout="wide")
+left,right = st.columns([3,1])
 
-left, right = st.columns([3, 1])
-
-# -----------------------------
-# LEFT MAP
-# -----------------------------
 with left:
-    st.subheader("🌆 Intelligent City Map")
-    st.plotly_chart(render_map(), use_container_width=True)
+    st.subheader("🌆 City Digital Twin")
+    st.plotly_chart(render(), use_container_width=True)
 
-# -----------------------------
-# RIGHT PANEL
-# -----------------------------
 with right:
-    st.subheader("🧠 Command Center")
+    st.subheader("🧠 Command")
 
-    cmd = st.text_input("Enter Command", "Go to hospital")
+    cmd = st.text_input("Command","Go to hospital")
 
     if st.button("Execute"):
-        intent, target = parse_command(cmd)
-
-        if target:
-            st.session_state.target = (target["x"], target["y"])
+        target_obj = parse(cmd)
+        if target_obj:
+            st.session_state.target = (target_obj["x"],target_obj["y"])
             st.session_state.running = True
-            log(f"📍 Navigating to {target['type']}")
+            log(f"🚀 Navigating to {target_obj['type']}")
         else:
-            log("❌ No valid target found")
+            log("❌ No target found")
 
     if st.button("Pause"):
-        st.session_state.running = False
+        st.session_state.running=False
 
-    st.subheader("🚨 Hazard Injection")
+    st.subheader("🚨 Hazard")
 
-    hx = st.slider("X", 0, 100, 50)
-    hy = st.slider("Y", 0, 100, 50)
+    hx = st.slider("X",0,100,50)
+    hy = st.slider("Y",0,100,50)
 
-    if st.button("Inject Hazard"):
-        st.session_state.hazards.append({"x": hx, "y": hy})
-        st.session_state.metrics["hazards"] += 1
-        log(f"🚨 Hazard at ({hx},{hy})")
+    if st.button("Add Hazard"):
+        st.session_state.hazards.append({"x":hx,"y":hy})
+        st.session_state.metrics["hazards"]+=1
 
     st.subheader("📊 Metrics")
-    st.metric("Hazards", st.session_state.metrics["hazards"])
-    st.metric("Avoided", st.session_state.metrics["avoided"])
-    st.metric("Near", st.session_state.metrics["near"])
+    st.metric("Hazards",st.session_state.metrics["hazards"])
+    st.metric("Avoided",st.session_state.metrics["avoided"])
+    st.metric("Near",st.session_state.metrics["near"])
 
-    st.subheader("📡 AI Thought Trace")
+    st.subheader("📡 Logs")
     st.text_area("", "\n".join(st.session_state.logs), height=300)
 
 # -----------------------------
 # LOOP
 # -----------------------------
 if st.session_state.running and st.session_state.target:
-    current = (st.session_state.drone["x"], st.session_state.drone["y"])
+    current=(st.session_state.drone["x"],st.session_state.drone["y"])
 
-    if dist(current, st.session_state.target) < 2:
-        st.session_state.running = False
+    if dist(current,st.session_state.target)<2:
+        st.session_state.running=False
         log("✅ Target reached")
         st.balloons()
         st.rerun()
     else:
-        update_drone()
+        update()
         time.sleep(0.08)
         st.rerun()
