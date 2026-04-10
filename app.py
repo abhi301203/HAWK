@@ -3,104 +3,96 @@ import plotly.graph_objects as go
 import numpy as np
 import time
 import random
+from streamlit_plotly_events import plotly_events
 
 # -----------------------------
-# SYSTEM STATE INITIALIZATION
+# INITIAL STATE
 # -----------------------------
-if "initialized" not in st.session_state:
-    st.session_state.initialized = True
+if "init" not in st.session_state:
+    st.session_state.init = True
     st.session_state.drone = {"x": 10, "y": 10}
+    st.session_state.target = (90, 90)
     st.session_state.path = [(10, 10)]
-    st.session_state.ghost_path = [(10, 10)]
-    st.session_state.obstacles = []
+    st.session_state.hazards = []
     st.session_state.logs = []
-    st.session_state.target = (80, 80)
+
+    st.session_state.metrics = {
+        "hazards": 0,
+        "avoided": 0,
+        "near": 0
+    }
 
 # -----------------------------
-# LOGGER (THOUGHT TRACE)
+# LOGGER
 # -----------------------------
 def log(msg):
-    timestamp = time.strftime("%H:%M:%S")
-    st.session_state.logs.insert(0, f"[{timestamp}] {msg}")
+    t = time.strftime("%H:%M:%S")
+    st.session_state.logs.insert(0, f"[{t}] {msg}")
 
 # -----------------------------
-# LATENCY SIMULATOR
+# DISTANCE
 # -----------------------------
-def simulate_latency(stage):
-    delay = random.uniform(0.2, 0.8)
-    log(f"{stage}...")
-    time.sleep(delay)
-    log(f"{stage} completed in {round(delay,2)}s")
-
-# -----------------------------
-# DISTANCE FUNCTION
-# -----------------------------
-def distance(a, b):
+def dist(a, b):
     return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
 
 # -----------------------------
-# PATH PLANNER (INTELLIGENT)
+# SMART STEP (REAL-TIME AVOIDANCE)
 # -----------------------------
-def plan_path(start, target, obstacles):
-    simulate_latency("Neural Path Planning")
+def compute_next_step(pos, target, hazards):
+    x, y = pos
 
-    path = []
-    x, y = start
+    dx = target[0] - x
+    dy = target[1] - y
 
-    for _ in range(200):
-        dx = target[0] - x
-        dy = target[1] - y
+    step_x = np.sign(dx)
+    step_y = np.sign(dy)
 
-        step_x = np.sign(dx)
-        step_y = np.sign(dy)
+    next_x = x + step_x
+    next_y = y + step_y
 
-        new_x = x + step_x
-        new_y = y + step_y
+    avoided = False
 
-        # Obstacle avoidance
-        for obs in obstacles:
-            if distance((new_x, new_y), (obs["x"], obs["y"])) < 5:
-                log("⚠️ Obstacle detected → Adjusting trajectory")
-                new_x += random.choice([-2, 2])
-                new_y += random.choice([-2, 2])
+    for h in hazards:
+        d = dist((next_x, next_y), (h["x"], h["y"]))
 
-        x, y = new_x, new_y
-        path.append((x, y))
+        # Near collision
+        if d < 6:
+            st.session_state.metrics["near"] += 1
+            log("⚠️ Hazard proximity detected")
 
-        if distance((x, y), target) < 2:
-            break
+        # Avoidance trigger
+        if d < 4:
+            avoided = True
+            st.session_state.metrics["avoided"] += 1
+            log("🚧 Avoidance maneuver activated")
 
-    return path
+            next_x += random.choice([-2, 2])
+            next_y += random.choice([-2, 2])
+
+    return (next_x, next_y), avoided
 
 # -----------------------------
-# DRONE MOVEMENT ENGINE
+# UPDATE DRONE (REAL-TIME)
 # -----------------------------
 def update_drone():
-    if len(st.session_state.path) > 1:
-        next_pos = st.session_state.path[1]
-        st.session_state.drone["x"], st.session_state.drone["y"] = next_pos
-        st.session_state.path.pop(0)
+    pos = (st.session_state.drone["x"], st.session_state.drone["y"])
+    target = st.session_state.target
+
+    new_pos, _ = compute_next_step(pos, target, st.session_state.hazards)
+
+    st.session_state.drone["x"], st.session_state.drone["y"] = new_pos
+    st.session_state.path.append(new_pos)
 
 # -----------------------------
-# DIGITAL TWIN RENDER
+# DIGITAL TWIN MAP
 # -----------------------------
 def render_map():
     fig = go.Figure()
 
-    # AI Path
+    # Path
     if len(st.session_state.path) > 1:
         x, y = zip(*st.session_state.path)
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name="AI Path"))
-
-    # Ghost Path (baseline)
-    gx = [p[0] for p in st.session_state.ghost_path]
-    gy = [p[1] for p in st.session_state.ghost_path]
-    fig.add_trace(go.Scatter(
-        x=gx, y=gy,
-        mode='lines',
-        name="Baseline",
-        line=dict(dash='dash')
-    ))
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name="Path"))
 
     # Drone
     fig.add_trace(go.Scatter(
@@ -111,83 +103,75 @@ def render_map():
         name="Drone"
     ))
 
-    # Obstacles
-    if st.session_state.obstacles:
-        ox = [o["x"] for o in st.session_state.obstacles]
-        oy = [o["y"] for o in st.session_state.obstacles]
+    # Hazards
+    if st.session_state.hazards:
+        hx = [h["x"] for h in st.session_state.hazards]
+        hy = [h["y"] for h in st.session_state.hazards]
 
         fig.add_trace(go.Scatter(
-            x=ox, y=oy,
+            x=hx, y=hy,
             mode='markers',
-            marker=dict(size=10, symbol='x'),
-            name="Obstacles"
+            marker=dict(size=12, symbol="x"),
+            name="Hazards"
         ))
 
     fig.update_layout(
         template="plotly_dark",
-        height=600,
-        clickmode='event+select'
+        height=650,
+        clickmode="event+select"
     )
 
     return fig
 
 # -----------------------------
-# UI LAYOUT
+# UI
 # -----------------------------
 st.set_page_config(layout="wide")
 
-col1, col2 = st.columns([3, 1])
+left, right = st.columns([3, 1])
 
 # -----------------------------
-# LEFT: DIGITAL TWIN
+# MAP + INJECTION
 # -----------------------------
-with col1:
-    st.subheader("🌍 Digital Twin Environment")
+with left:
+    st.subheader("🌍 Digital Twin")
 
     fig = render_map()
-    selected = st.plotly_chart(fig, use_container_width=True)
+    selected = plotly_events(fig)
 
-    # CLICK → INJECT OBSTACLE
-    if selected and "points" in selected:
-        point = selected["points"][0]
-        x, y = int(point["x"]), int(point["y"])
+    if selected:
+        px = int(selected[0]["x"])
+        py = int(selected[0]["y"])
 
-        st.session_state.obstacles.append({"x": x, "y": y})
-        log(f"🚨 Hazard injected at ({x}, {y})")
+        st.session_state.hazards.append({"x": px, "y": py})
+        st.session_state.metrics["hazards"] += 1
 
-        # Trigger replanning
-        st.session_state.path = plan_path(
-            (st.session_state.drone["x"], st.session_state.drone["y"]),
-            st.session_state.target,
-            st.session_state.obstacles
-        )
+        log(f"🚨 Hazard injected at ({px}, {py})")
 
 # -----------------------------
-# RIGHT: CONTROL PANEL
+# CONTROL PANEL
 # -----------------------------
-with col2:
-    st.subheader("🧠 Command HUD")
+with right:
+    st.subheader("🧠 Mission Control")
 
-    if st.button("Start Mission"):
+    if st.button("Start"):
         log("Mission Started")
-        st.session_state.path = plan_path(
-            (st.session_state.drone["x"], st.session_state.drone["y"]),
-            st.session_state.target,
-            st.session_state.obstacles
-        )
 
     if st.button("Reset"):
-        st.session_state.drone = {"x": 10, "y": 10}
-        st.session_state.path = [(10, 10)]
-        st.session_state.obstacles = []
-        st.session_state.logs = []
-        log("System Reset")
+        st.session_state.clear()
+        st.rerun()
+
+    st.subheader("📊 Metrics")
+
+    st.metric("Total Hazards", st.session_state.metrics["hazards"])
+    st.metric("Avoided", st.session_state.metrics["avoided"])
+    st.metric("Near Collisions", st.session_state.metrics["near"])
 
     st.subheader("📡 Thought Trace")
-    st.text_area("", "\n".join(st.session_state.logs), height=400)
+    st.text_area("", "\n".join(st.session_state.logs), height=350)
 
 # -----------------------------
-# MAIN LOOP SIMULATION
+# MAIN LOOP
 # -----------------------------
 update_drone()
 time.sleep(0.1)
