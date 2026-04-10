@@ -3,9 +3,10 @@ import plotly.graph_objects as go
 import numpy as np
 import random
 import time
+import pandas as pd
 
 # -----------------------------
-# INIT
+# INIT FUNCTIONS
 # -----------------------------
 def init_state():
     st.session_state.drone = {"x": 10, "y": 10}
@@ -21,10 +22,14 @@ def init_state():
         "near": 0
     }
 
+    st.session_state.landmarks = []
+
+# -----------------------------
+# INITIAL LOAD
+# -----------------------------
 if "init" not in st.session_state:
     st.session_state.init = True
 
-    # Create city once
     st.session_state.city = []
     types = [
         "home","hospital","school","church","hotel",
@@ -79,7 +84,7 @@ def dist(a,b):
     return np.linalg.norm(np.array(a)-np.array(b))
 
 # -----------------------------
-# SAFE NAVIGATION (NO COLLISION)
+# SAFE NAVIGATION
 # -----------------------------
 def compute_next(pos, target):
     pos = np.array(pos)
@@ -110,6 +115,23 @@ def compute_next(pos, target):
     return tuple(new_pos)
 
 # -----------------------------
+# LANDMARK MEMORY UPDATE
+# -----------------------------
+def update_landmarks(pos):
+    for obj in st.session_state.city:
+        d = dist(pos, (obj["x"], obj["y"]))
+        if d < 3:
+            entry = {
+                "Type": obj["type"],
+                "X": obj["x"],
+                "Y": obj["y"],
+                "Time": time.strftime("%H:%M:%S")
+            }
+            if entry not in st.session_state.landmarks:
+                st.session_state.landmarks.append(entry)
+                log(f"📍 Landmark recorded: {obj['type']}")
+
+# -----------------------------
 # UPDATE DRONE
 # -----------------------------
 def update():
@@ -120,6 +142,8 @@ def update():
 
     st.session_state.drone["x"], st.session_state.drone["y"] = new
     st.session_state.path.append(new)
+
+    update_landmarks(new)
 
 # -----------------------------
 # MAP
@@ -132,13 +156,14 @@ def render():
         fig.add_shape(type="line", x0=i,y0=0,x1=i,y1=100,line=dict(color="gray",width=1))
         fig.add_shape(type="line", x0=0,y0=i,x1=100,y1=i,line=dict(color="gray",width=1))
 
-    # City
+    # City objects with labels
     for obj in st.session_state.city:
+        label = f"{icon(obj['type'])}<br>{obj['type']}<br>({obj['x']},{obj['y']})"
         fig.add_annotation(
             x=obj["x"], y=obj["y"],
-            text=icon(obj["type"]),
+            text=label,
             showarrow=False,
-            font=dict(size=18)
+            font=dict(size=12)
         )
 
     # Hazards
@@ -153,15 +178,19 @@ def render():
     # Path
     if len(st.session_state.path)>1:
         x,y=zip(*st.session_state.path)
-        fig.add_trace(go.Scatter(x=x,y=y,mode="lines",name="Path"))
+        fig.add_trace(go.Scatter(
+            x=x,y=y,
+            mode="lines+markers",
+            name="Trajectory"
+        ))
 
-    # Drone (ICON FIX 🔥)
+    # Drone (LABELED)
     fig.add_annotation(
         x=st.session_state.drone["x"],
         y=st.session_state.drone["y"],
-        text="🚁",
+        text="🚁<br>H.A.W.K Drone",
         showarrow=False,
-        font=dict(size=22)
+        font=dict(size=14)
     )
 
     # Target
@@ -169,9 +198,9 @@ def render():
         fig.add_annotation(
             x=st.session_state.target[0],
             y=st.session_state.target[1],
-            text="🎯",
+            text="🎯 Target",
             showarrow=False,
-            font=dict(size=22)
+            font=dict(size=14)
         )
 
     fig.update_layout(template="plotly_dark",height=600)
@@ -183,22 +212,20 @@ def render():
 st.set_page_config(layout="wide")
 left,right = st.columns([3,1])
 
-# -----------------------------
-# MAP
-# -----------------------------
 with left:
-    st.subheader("🌆 City Digital Twin")
+    st.subheader("🌆 Intelligent City Digital Twin")
     st.plotly_chart(render(), use_container_width=True)
 
-# -----------------------------
-# CONTROL PANEL
-# -----------------------------
+    st.subheader("🗺️ Landmark Memory")
+    df = pd.DataFrame(st.session_state.landmarks)
+    st.dataframe(df, use_container_width=True)
+
 with right:
     st.subheader("🧠 Command Center")
 
     cmd = st.text_input("Command","Go to hospital")
 
-    if st.button("🚀 Execute Mission"):
+    if st.button("Execute Mission"):
         target_obj = parse(cmd)
         if target_obj:
             st.session_state.target = (target_obj["x"],target_obj["y"])
@@ -207,23 +234,12 @@ with right:
         else:
             log("❌ No valid target")
 
-    col1, col2 = st.columns(2)
+    if st.button("Pause"):
+        st.session_state.running=False
 
-    if col1.button("⏸ Pause"):
-        st.session_state.running = False
-
-    if col2.button("▶ Resume"):
-        st.session_state.running = True
-
-    # 🔄 RESET FULL SYSTEM
-    if st.button("🔄 Reset System"):
+    if st.button("Reset System"):
         st.session_state.clear()
         st.rerun()
-
-    # 🔁 NEXT RUN (KEEP CITY)
-    if st.button("🔁 Next Mission"):
-        init_state()
-        log("🔁 New mission started")
 
     st.subheader("🚨 Hazard Injection")
 
